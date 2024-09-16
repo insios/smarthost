@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. ./devel/bin/config.sh run
+
+DOCKER_ARGS="$DOCKER_ARGS \
+    --name $DOCKER_NAME \
+    -p $LOCAL_SUBMIT_PORT:587 \
+    -p $LOCAL_SUBMIT_PORT_PP:586 \
+    -v $LOCAL_CONFIG:/etc/smarthost"
+
+if [ -f "$LOCAL_CONFIG/env.conf" ]; then
+    DOCKER_ARGS="$DOCKER_ARGS --env-file $LOCAL_CONFIG/env.conf"
+fi
+
+docker run -ti --rm \
+    $DOCKER_ARGS \
+    $DOCKER_IMG:$DOCKER_TAG \
+    $@

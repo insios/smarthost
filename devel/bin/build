@@ -1,0 +1,11 @@
+#!/bin/bash
+
+. ./devel/bin/config.sh build
+
+docker build --rm $DOCKER_ARGS \
+    --tag $DOCKER_IMG:$DOCKER_TAG .
+
+if [ ! -z "$PUSH_TO" ]; then
+    docker tag $DOCKER_IMG:$DOCKER_TAG $PUSH_TO/$DOCKER_IMG:$DOCKER_TAG;
+    docker push $PUSH_TO/$DOCKER_IMG:$DOCKER_TAG;
+fi

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./devel/bin/build && ./devel/bin/run $@
+
