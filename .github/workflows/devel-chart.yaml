@@ -32,6 +32,6 @@ jobs:
         with:
           config: charts/chart-releaser.yaml
           mark_as_latest: false
-          pages_branch: main
+          pages_branch: gh-pages
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
