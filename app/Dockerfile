@@ -33,7 +33,7 @@ RUN ln -sf $APP_LIB/bin/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh && \
         ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
         ln -sf $APP_LIB/etc/msmtprc /etc/msmtprc
 
-COPY app/ $APP_LIB
+COPY ./ $APP_LIB
 
 EXPOSE 587 586
 ENTRYPOINT ["docker-entrypoint.sh"]

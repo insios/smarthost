@@ -1,0 +1,72 @@
+name: Publish docker image
+run-name: Publish docker image
+
+on:
+  push:
+    tags: ["app-*"]
+    branches: ['main', 'devel']
+    paths: ['app/**']
+
+env:
+  APP_PATH: app
+  # GitHub Container registry
+  GHCR_NAME: ${{ github.repository_owner }}/docker/${{ github.event.repository.name }}
+  # Docker Hub
+  DHUB_NAME: insios/${{ github.event.repository.name }}
+  DHUB_USERNAME: ${{ secrets.INSIOS_DOCKER_USERNAME }}
+  DHUB_PASSWORD: ${{ secrets.INSIOS_DOCKER_PASSWORD }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DHUB_USERNAME }}
+          password: ${{ env.DHUB_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/${{ env.GHCR_NAME }}
+            ${{ env.DHUB_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=match,pattern=app-(\d+.\d+.\d+),group=1
+            type=match,pattern=app-(\d+.\d+),group=1
+            type=match,pattern=app-(\d+),group=1
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ APP_PATH }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ghcr.io/${{ env.GHCR_NAME }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true

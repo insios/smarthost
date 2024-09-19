@@ -26,6 +26,9 @@ fi
 if [ -z "$LOCAL_SUBMIT_PORT_PP" ]; then
     LOCAL_SUBMIT_PORT_PP="8586"
 fi
+if [ -z "$HELM_CHART" ]; then
+    HELM_CHART="./chart"
+fi
 if [ -z "$HELM_NS" ]; then
     HELM_NS="default"
 fi

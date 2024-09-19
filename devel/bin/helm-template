@@ -2,4 +2,4 @@
 
 . ./devel/bin/config.sh helm
 
-helm template smarthost ./chart $HELM_VALUES
+helm template smarthost $HELM_CHART $HELM_VALUES

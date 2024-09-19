@@ -7,4 +7,4 @@ helm upgrade --install --atomic --cleanup-on-fail \
     --namespace "$HELM_NS" --create-namespace \
     $HELM_VALUES \
     --set podAnnotations.rollme="$(date)" \
-    smarthost ./chart
+    smarthost $HELM_CHART
