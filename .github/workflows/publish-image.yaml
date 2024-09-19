@@ -59,7 +59,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: ${{ APP_PATH }}
+          context: ${{ env.APP_PATH }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
