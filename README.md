@@ -49,4 +49,4 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ## Helm chart
 
-See chart [README.md](chart/README.md)
+See chart [README.md](chart)
