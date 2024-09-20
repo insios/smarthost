@@ -17,6 +17,14 @@ docker run --rm --name smarthost -p 8587:587 insios/smarthost
 helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 ```
 
+## Features
+
+### Auth
+
+### DKIM
+
+### Proxy Protocol
+
 ## Configuration
 
 ### ENV

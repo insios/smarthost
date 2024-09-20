@@ -1,1 +1,1 @@
-# insios/smarthost
+# insios/smarthost Helm chart
