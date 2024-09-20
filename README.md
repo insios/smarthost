@@ -8,6 +8,8 @@ servers.
 
 This image allows you...
 
+Based on alpine + postfix + openssl + cyrus-sasl + opendkim
+
 Features: TLS, Auth, DKIM, relay, Proxy Protocol
 
 > [!IMPORTANT]
