@@ -22,6 +22,7 @@ ARG APP_CONF=/etc/smarthost
 ENV APP_CONF=$APP_CONF
 
 RUN ln -sf $APP_LIB/bin/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh && \
+        ln -sf $APP_LIB/bin/versions.sh /usr/bin/versions.sh && \
         newaliases && \
         mkdir -p $APP_CONF && \
         mkdir -p $APP_VAR/postfix $APP_VAR/sasl2 $APP_VAR/opendkim && \

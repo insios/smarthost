@@ -39,5 +39,4 @@ chmod 0700 "$dst_pid"
 if [ ! -L "$src_pid" ]; then
     [ -e "$src_pid" ] && rm -rf "$src_pid"
     ln -sf "$dst_pid" "$src_pid"
-    chmod 0700 "/var/spool/postfix"
 fi
