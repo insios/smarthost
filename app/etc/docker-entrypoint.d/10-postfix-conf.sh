@@ -30,3 +30,14 @@ apply_d () {
 
 [ -d "$APP_LIB/etc/postfix.d" ] && apply_d "$APP_LIB/etc/postfix.d"
 [ -d "$APP_CONF/postfix.d" ] && apply_d "$APP_CONF/postfix.d"
+
+src_pid="/var/spool/postfix/pid"
+dst_pid="/var/lib/postfix/pid"
+mkdir -p "$dst_pid"
+chown postfix "$dst_pid"
+chmod 0700 "$dst_pid"
+if [ ! -L "$src_pid" ]; then
+    [ -e "$src_pid" ] && rm -rf "$src_pid"
+    ln -sf "$dst_pid" "$src_pid"
+    chmod 0700 "/var/spool/postfix"
+fi

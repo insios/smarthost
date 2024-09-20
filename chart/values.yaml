@@ -39,6 +39,25 @@ persistence:
   accessMode: ReadWriteOnce
   size: 1Gi
 
+startupProbe:
+  tcpSocket:
+    port: smtpd
+  periodSeconds: 3
+  failureThreshold: 10
+
+livenessProbe:
+  # tcpSocket:
+  #   port: 587
+  exec:
+    command: ["postfix", "status"]
+    # command:
+    #   - sh
+    #   - -c
+    #   - '! /usr/libexec/postfix/master -t'
+  initialDelaySeconds: 30
+  periodSeconds: 60
+  failureThreshold: 1
+
 replicaCount: 1
 
 image:

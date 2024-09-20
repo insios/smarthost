@@ -3,7 +3,7 @@
 . ./devel/bin/config.sh build
 
 docker build --rm $DOCKER_ARGS \
-    --tag $DOCKER_IMG:$DOCKER_TAG .
+    --tag $DOCKER_IMG:$DOCKER_TAG ./app
 
 if [ ! -z "$PUSH_TO" ]; then
     docker tag $DOCKER_IMG:$DOCKER_TAG $PUSH_TO/$DOCKER_IMG:$DOCKER_TAG;
