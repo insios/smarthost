@@ -42,7 +42,11 @@ type: {{ ternary "kubernetes.io/tls" "Opaque" (eq "tls" $config.type) }}
 */}}
 data:
 {{- range $fileName, $fileData := $config.data }}
+{{- if (kindIs "string" $fileData) }}
   {{ $fileName }}: {{ $fileData | b64enc | quote }}
+{{- else }}
+  {{ $fileName }}: {{ $fileData | toYaml | b64enc | quote }}
+{{- end }}
 {{- end }}
 {{- else }}
 {{- with $config.data }}
