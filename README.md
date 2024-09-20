@@ -8,16 +8,10 @@ servers.
 
 This image allows you...
 
-### Features
-
-#### Auth
-
-#### DKIM
+Features: TLS, Auth, DKIM, relay, Proxy Protocol
 
 > [!IMPORTANT]
 > Key information users need to know to achieve their goal.
-
-#### Proxy Protocol
 
 ## TLDR
 
@@ -40,3 +34,21 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 ## Helm chart
 
 See chart [README.md](chart)
+
+## Examples
+
+### Example 1
+
+### Example 2
+
+### Example 3
+
+## Tips
+
+### DKIM
+
+### SPF
+
+### DMARC
+
+### Proxy Protocol
