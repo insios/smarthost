@@ -104,7 +104,7 @@ relative to /etc/smarthost
         <tr>
 <td>SH_RELAY_HOST</td>
 <td></td>
-<td><pre>smtp-relay.gmail.com:587</pre></td>
+<td><pre><code>smtp-relay.gmail.com:587</code></pre></td>
 <td>
 
 Description
