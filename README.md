@@ -46,72 +46,82 @@ The simplest but less powerful way to configure smarthost.
     </thead>
     <tbody>
         <tr>
-            <td>SH_HOSTNAME</td>
-            <td>localhost.localdomain</td>
-            <td>relay.mydomain.com</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>SH_ALLOWED_NETWORKS</td>
-            <td>127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</td>
-            <td>0.0.0.0/0</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>SH_AUTH</td>
-            <td></td>
-            <td>testuser:testpassword</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>SH_TLS_LEVEL</td>
-            <td></td>
-            <td>may</td>
-            <td>
+<td>SH_HOSTNAME</td>
+<td>localhost.localdomain</td>
+<td>relay.mydomain.com</td>
+<td>
 
-`may` or `encrypt`</td>
+Description
+
+</td>
         </tr>
         <tr>
-            <td>SH_TLS_CRT</td>
-            <td></td>
-            <td>postfix.tls/tls.crt</td>
-            <td>relative to /etc/smarthost</td>
+<td>SH_ALLOWED_NETWORKS</td>
+<td>127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</td>
+<td>0.0.0.0/0</td>
+<td>
+
+Description
+
+</td>
         </tr>
         <tr>
-            <td>SH_TLS_KEY</td>
-            <td></td>
-            <td>postfix.tls/tls.key</td>
-            <td>relative to /etc/smarthost</td>
+<td>SH_AUTH</td>
+<td></td>
+<td>testuser:testpassword</td>
+<td></td>
         </tr>
         <tr>
-            <td>SH_RELAY_HOST</td>
-            <td></td>
-            <td>smtp-relay.gmail.com:587</td>
-            <td></td>
+<td>SH_TLS_LEVEL</td>
+<td></td>
+<td>may</td>
+<td>
+
+`may` or `encrypt`
+
+</td>
         </tr>
         <tr>
-            <td>SH_RELAY_USERNAME</td>
-            <td></td>
-            <td>testuser</td>
-            <td></td>
+<td>SH_TLS_CRT</td>
+<td></td>
+<td>postfix.tls/tls.crt</td>
+<td>relative to /etc/smarthost</td>
         </tr>
         <tr>
-            <td>SH_RELAY_PASSWORD</td>
-            <td></td>
-            <td>testpassword</td>
-            <td></td>
+<td>SH_TLS_KEY</td>
+<td></td>
+<td>postfix.tls/tls.key</td>
+<td>relative to /etc/smarthost</td>
         </tr>
         <tr>
-            <td>SH_RELAY_TLS</td>
-            <td></td>
-            <td>yes</td>
-            <td></td>
+<td>SH_RELAY_HOST</td>
+<td></td>
+<td>smtp-relay.gmail.com:587</td>
+<td></td>
         </tr>
         <tr>
-            <td>SH_VERBOSE</td>
-            <td></td>
-            <td>yes</td>
-            <td></td>
+<td>SH_RELAY_USERNAME</td>
+<td></td>
+<td>testuser</td>
+<td></td>
+        </tr>
+        <tr>
+<td>SH_RELAY_PASSWORD</td>
+<td></td>
+<td>testpassword</td>
+<td></td>
+        </tr>
+        <tr>
+<td>SH_RELAY_TLS</td>
+<td></td>
+<td>yes</td>
+<td></td>
+        </tr>
+        <tr>
+<td>SH_VERBOSE</td>
+<td></td>
+<td>yes</td>
+<td></td>
         </tr>
     </tbody>
 </table>
