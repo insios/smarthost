@@ -33,37 +33,85 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ### Via ENV variables
 
-Less powerful but simplest way to configure smarthost.
-
-| Name | Default | Example | Description |
-| --- | --- | --- | --- |
-| SH_VERBOSE |  |  |  |
-| SH_HOSTNAME | localhost.localdomain |  |  |
-| SH_ALLOWED_NETWORKS | 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | 0.0.0.0/0 | werwer
-werwerwer
-werwer |
-| SH_AUTH |  |  | `test:test` |
-| SH_TLS_LEVEL |  |  | `may` or `encrypt` |
-| SH_TLS_CRT |  |  | relative to /etc/smarthost |
-| SH_TLS_KEY |  |  | relative to /etc/smarthost |
-| SH_RELAY_HOST |  |  |  |
-| SH_RELAY_USERNAME |  |  |  |
-| SH_RELAY_PASSWORD |  |  |  |
-| SH_RELAY_TLS |  |  |  |
+The simplest but less powerful way to configure smarthost.
 
 <table>
-<thead>
-<tr>
-<th>foo</th>
-<th>bar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>baz</td>
-<td>bim</td>
-</tr>
-</tbody>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Default</th>
+            <th>Example</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>SH_VERBOSE</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_HOSTNAME</td>
+            <td>localhost.localdomain</td>
+            <td>relay.mydomain.com</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_ALLOWED_NETWORKS</td>
+            <td>127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</td>
+            <td>0.0.0.0/0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_AUTH</td>
+            <td></td>
+            <td>user:password</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_TLS_LEVEL</td>
+            <td></td>
+            <td>may</td>
+            <td>`may` or `encrypt`</td>
+        </tr>
+        <tr>
+            <td>SH_TLS_CRT</td>
+            <td></td>
+            <td>postfix.tls/tls.crt</td>
+            <td>relative to /etc/smarthost</td>
+        </tr>
+        <tr>
+            <td>SH_TLS_KEY</td>
+            <td></td>
+            <td>postfix.tls/tls.key</td>
+            <td>relative to /etc/smarthost</td>
+        </tr>
+        <tr>
+            <td>SH_RELAY_HOST</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_RELAY_USERNAME</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_RELAY_PASSWORD</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_RELAY_TLS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 
 ### Via YAML files
