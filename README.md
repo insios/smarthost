@@ -38,8 +38,8 @@ The simplest but less powerful way to configure smarthost.
 | Name | Default | Example | Description |
 | ---- | ------- | ------- | ----------- |
 | `SH_HOSTNAME`         | `localhost.localdomain`   | `relay.mydomain.com`          |  |
-| `SH_ALLOWED_NETWORKS` | `127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16`  | `0.0.0.0/0` |  |
-| `SH_AUTH`             |                           | `user:password`               | Colon separated username and password for smtp clients authorization |
+| `SH_ALLOWED_NETWORKS` | `127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16`  | `0.0.0.0/0` | Coma or space delimited networks or/and IP addresses from which clients are allowed to connect and send emails |
+| `SH_AUTH`             |                           | `user:password`               | Colon delimited username and password for smtp clients authorization |
 | `SH_TLS_LEVEL`        |                           | `may`                         | `may` or `encrypt` |
 | `SH_TLS_CRT`          |                           | `postfix.tls/tls.crt`         | relative to `/etc/smarthost` |
 | `SH_TLS_KEY`          |                           | `postfix.tls/tls.key`         | relative to `/etc/smarthost` |
