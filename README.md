@@ -69,9 +69,7 @@ The simplest but less powerful way to configure smarthost.
             <td>may</td>
             <td>
 
-`may` or `encrypt`
-
-</td>
+`may` or `encrypt`</td>
         </tr>
         <tr>
             <td>SH_TLS_CRT</td>
