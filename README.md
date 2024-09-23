@@ -19,7 +19,7 @@ Supported features:
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
 
-## TLTR
+## TL;DR
 
 ```shell
 docker run --rm --name smarthost -p 8587:587 insios/smarthost
@@ -35,128 +35,23 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 The simplest but less powerful way to configure smarthost.
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Default</th>
-            <th>Example</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td>SH_HOSTNAME</td>
-<td>localhost.localdomain</td>
-<td>relay.mydomain.com</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-        <tr>
-<td>SH_ALLOWED_NETWORKS</td>
-<td>127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</td>
-<td>0.0.0.0/0</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-        <tr>
-<td>SH_AUTH</td>
-<td></td>
-<td>user:password</td>
-<td></td>
-        </tr>
-        <tr>
-<td>SH_TLS_LEVEL</td>
-<td></td>
-<td>may</td>
-<td>
-
-`may` or `encrypt`
-
-</td>
-        </tr>
-        <tr>
-<td>SH_TLS_CRT</td>
-<td></td>
-<td>postfix.tls/tls.crt</td>
-<td>
-
-relative to /etc/smarthost
-
-</td>
-        </tr>
-        <tr>
-<td>SH_TLS_KEY</td>
-<td></td>
-<td>postfix.tls/tls.key</td>
-<td>
-
-relative to /etc/smarthost
-
-</td>
-        </tr>
-        <tr>
-<td>SH_RELAY_HOST</td>
-<td></td>
-<td>smtp-relay.gmail.com:587</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-        <tr>
-<td>SH_RELAY_USERNAME</td>
-<td></td>
-<td>gmailuser</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-        <tr>
-<td>SH_RELAY_PASSWORD</td>
-<td></td>
-<td>gmailpassword</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-        <tr>
-<td>SH_RELAY_TLS</td>
-<td></td>
-<td>yes</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-        <tr>
-<td>SH_VERBOSE</td>
-<td></td>
-<td>yes</td>
-<td>
-
-Description
-
-</td>
-        </tr>
-    </tbody>
-</table>
+| Name | Default | Example | Description |
+| ---- | ------- | ------- | ----------- |
+| `SH_HOSTNAME`         | `localhost.localdomain`   | `relay.mydomain.com`          |  |
+| `SH_ALLOWED_NETWORKS` | `127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16`  | `0.0.0.0/0` |  |
+| `SH_AUTH`             |                           | `user:password`               | Colon separated username and password for smtp clients authorization |
+| `SH_TLS_LEVEL`        |                           | `may`                         | `may` or `encrypt` |
+| `SH_TLS_CRT`          |                           | `postfix.tls/tls.crt`         | relative to `/etc/smarthost` |
+| `SH_TLS_KEY`          |                           | `postfix.tls/tls.key`         | relative to `/etc/smarthost` |
+| `SH_RELAY_HOST`       |                           | `smtp-relay.gmail.com:587`    |  |
+| `SH_RELAY_USERNAME`   |                           | `gmailuser`                   |  |
+| `SH_RELAY_PASSWORD`   |                           | `gmailpassword`               |  |
+| `SH_RELAY_TLS`        |                           | `yes`                         |  |
+| `SH_VERBOSE`          |                           | `yes`                         |  |
 
 ### Via YAML files
 
-The powerful and most user-friendly way to configure smarthost.
+The powerful and user-friendly way to configure smarthost.
 
 ### Via low-level configuration files
 
