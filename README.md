@@ -10,7 +10,11 @@ This image allows you to run your own smarthost smtp relay for delivering emails
 from your websites (transactional emails, subscriptions, notifications etc),
 IOT devices (printers, sensors etc), and so on.
 
-Features: TLS, Auth, DKIM, relay, Proxy Protocol
+Features: [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
+    [SMTP AUTH](https://en.wikipedia.org/wiki/SMTP_Authentication),
+    [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
+    [Proxy Protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
+    Next hop smtp relay
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim
 
