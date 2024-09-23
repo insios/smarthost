@@ -60,14 +60,18 @@ The simplest but less powerful way to configure smarthost.
         <tr>
             <td>SH_AUTH</td>
             <td></td>
-            <td>user:password</td>
+            <td>testuser:testpassword</td>
             <td></td>
         </tr>
         <tr>
             <td>SH_TLS_LEVEL</td>
             <td></td>
             <td>may</td>
-            <td>`may` or `encrypt`</td>
+            <td>
+
+`may` or `encrypt`
+
+</td>
         </tr>
         <tr>
             <td>SH_TLS_CRT</td>
@@ -84,31 +88,31 @@ The simplest but less powerful way to configure smarthost.
         <tr>
             <td>SH_RELAY_HOST</td>
             <td></td>
-            <td></td>
+            <td>smtp-relay.gmail.com:587</td>
             <td></td>
         </tr>
         <tr>
             <td>SH_RELAY_USERNAME</td>
             <td></td>
-            <td></td>
+            <td>testuser</td>
             <td></td>
         </tr>
         <tr>
             <td>SH_RELAY_PASSWORD</td>
             <td></td>
-            <td></td>
+            <td>testpassword</td>
             <td></td>
         </tr>
         <tr>
             <td>SH_RELAY_TLS</td>
             <td></td>
-            <td></td>
+            <td>yes</td>
             <td></td>
         </tr>
         <tr>
             <td>SH_VERBOSE</td>
             <td></td>
-            <td></td>
+            <td>yes</td>
             <td></td>
         </tr>
     </tbody>
