@@ -46,12 +46,6 @@ The simplest but less powerful way to configure smarthost.
     </thead>
     <tbody>
         <tr>
-            <td>SH_VERBOSE</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
             <td>SH_HOSTNAME</td>
             <td>localhost.localdomain</td>
             <td>relay.mydomain.com</td>
@@ -107,6 +101,12 @@ The simplest but less powerful way to configure smarthost.
         </tr>
         <tr>
             <td>SH_RELAY_TLS</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SH_VERBOSE</td>
             <td></td>
             <td></td>
             <td></td>
