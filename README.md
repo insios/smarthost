@@ -1,8 +1,8 @@
 # insios/smarthost
 
 A smarthost is an MTA (Mail Transfer Agent), or mail relay via which third
-parties can send emails and have them forwarded on to the recipient's email
-servers.
+parties can send emails and have them forwarded to the recipient's email
+servers. So, it is specialized to deal with outbound emails.
 
 ## Description
 
@@ -35,7 +35,7 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ## Helm chart
 
-See chart [README.md](chart)
+See [chart README.md](chart)
 
 ## Examples
 
@@ -52,5 +52,7 @@ See chart [README.md](chart)
 ### SPF
 
 ### DMARC
+
+### Reverse DNS
 
 ### Proxy Protocol

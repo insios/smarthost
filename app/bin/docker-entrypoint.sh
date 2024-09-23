@@ -39,6 +39,8 @@ run_d $APP_CONF/docker-entrypoint.d
 logger "Running opendkim"
 opendkim -A
 
+$APP_LIB/bin/conf-host-ip.sh
+
 logger "Running postfix"
 case "$1" in
     "postfix" | "")
