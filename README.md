@@ -39,7 +39,9 @@ Less powerful but simplest way to configure smarthost.
 | --- | --- | --- | --- |
 | SH_VERBOSE |  |  |  |
 | SH_HOSTNAME | localhost.localdomain |  |  |
-| SH_ALLOWED_NETWORKS | 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | 0.0.0.0/0 |  |
+| SH_ALLOWED_NETWORKS | 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | 0.0.0.0/0 | werwer
+werwerwer
+werwer |
 | SH_AUTH |  |  | `test:test` |
 | SH_TLS_LEVEL |  |  | `may` or `encrypt` |
 | SH_TLS_CRT |  |  | relative to /etc/smarthost |
