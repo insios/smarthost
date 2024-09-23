@@ -68,7 +68,7 @@ Description
         <tr>
 <td>SH_AUTH</td>
 <td></td>
-<td>testuser:testpassword</td>
+<td>user:password</td>
 <td></td>
         </tr>
         <tr>
@@ -104,7 +104,7 @@ relative to /etc/smarthost
         <tr>
 <td>SH_RELAY_HOST</td>
 <td></td>
-<td>smtp-relay.gmail.com:587</td>
+<td><code>smtp-relay.gmail.com:587</code></td>
 <td>
 
 Description
@@ -114,7 +114,7 @@ Description
         <tr>
 <td>SH_RELAY_USERNAME</td>
 <td></td>
-<td>testuser</td>
+<td>gmailuser</td>
 <td>
 
 Description
@@ -124,7 +124,7 @@ Description
         <tr>
 <td>SH_RELAY_PASSWORD</td>
 <td></td>
-<td>testpassword</td>
+<td>gmailpassword</td>
 <td>
 
 Description
