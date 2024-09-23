@@ -15,9 +15,9 @@ Supported features:
     [SMTP AUTH](https://en.wikipedia.org/wiki/SMTP_Authentication),
     [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
     [Proxy Protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
-    Next hop smtp relay
+    Next hop smtp relay.
 
-Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim
+Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
 
 ## TLTR
 
@@ -31,27 +31,42 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ## Configuration
 
-### ENV
+### Via ENV variables
 
-Less powerful but simplest way to configure smarthost
+Less powerful but simplest way to configure smarthost.
 
-| ENV name | Default | Description |
-| --- | --- | --- |
-| SH_VERBOSE |  |  |
-| SH_HOSTNAME | localhost.localdomain |  |
-| SH_ALLOWED_NETWORKS | 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 |  |
-| SH_AUTH |  | `test:test` |
-| SH_TLS_LEVEL |  | `may` or `encrypt` |
-| SH_TLS_CRT |  | relative to /etc/smarthost |
-| SH_TLS_KEY |  | relative to /etc/smarthost |
-| SH_RELAY_HOST |  |  |
-| SH_RELAY_USERNAME |  |  |
-| SH_RELAY_PASSWORD |  |  |
-| SH_RELAY_TLS |  |  |
+| Name | Default | Example | Description |
+| --- | --- | --- | --- |
+| SH_VERBOSE |  |  |  |
+| SH_HOSTNAME | localhost.localdomain |  |  |
+| SH_ALLOWED_NETWORKS | 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | 0.0.0.0/0 |  |
+| SH_AUTH |  |  | `test:test` |
+| SH_TLS_LEVEL |  |  | `may` or `encrypt` |
+| SH_TLS_CRT |  |  | relative to /etc/smarthost |
+| SH_TLS_KEY |  |  | relative to /etc/smarthost |
+| SH_RELAY_HOST |  |  |  |
+| SH_RELAY_USERNAME |  |  |  |
+| SH_RELAY_PASSWORD |  |  |  |
+| SH_RELAY_TLS |  |  |  |
 
-### YAML
+<table>
+<thead>
+<tr>
+<th>foo</th>
+<th>bar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baz</td>
+<td>bim</td>
+</tr>
+</tbody>
+</table>
 
-### conf files
+### Via YAML files
+
+### Via different conf files
 
 ## Helm chart
 
