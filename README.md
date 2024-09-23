@@ -6,11 +6,12 @@ servers.
 
 ## Description
 
-This image allows you to run your own smarthost smtp relay for delivering emails
-from your websites (transactional emails, subscriptions, notifications etc),
-IOT devices (printers, sensors etc), and so on.
+This image allows you to run your own smarthost (smtp relay) for delivering
+emails from your websites (transactional emails, subscriptions, notifications
+etc), IOT devices (printers, sensors etc), and so on.
 
-Features: [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
+Supported features:
+    [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
     [SMTP AUTH](https://en.wikipedia.org/wiki/SMTP_Authentication),
     [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
     [Proxy Protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
@@ -18,7 +19,7 @@ Features: [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim
 
-## TLDR
+## TLTR
 
 ```shell
 docker run --rm --name smarthost -p 8587:587 insios/smarthost
