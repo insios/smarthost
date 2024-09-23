@@ -128,7 +128,11 @@ Description
 
 ### Via YAML files
 
-### Via different conf files
+The powerful and most user-friendly way to configure smarthost.
+
+### Via low-level configuration files
+
+The most powerful for those who are familiar with postfix and opendkim.
 
 ## Helm chart
 
