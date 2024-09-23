@@ -8,13 +8,13 @@ servers.
 
 This image allows you to run your own smarthost (smtp relay) for delivering
 emails from your websites (transactional emails, subscriptions, notifications
-etc), IOT devices (printers, sensors etc), and so on.
+etc), IOT devices (printers, sensors etc), and any other SMTP clients.
 
 Supported features:
     [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
     [SMTP AUTH](https://en.wikipedia.org/wiki/SMTP_Authentication),
     [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
-    [Proxy Protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
+    [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
     Next hop smtp relay.
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
@@ -85,43 +85,71 @@ Description
 <td>SH_TLS_CRT</td>
 <td></td>
 <td>postfix.tls/tls.crt</td>
-<td>relative to /etc/smarthost</td>
+<td>
+
+relative to /etc/smarthost
+
+</td>
         </tr>
         <tr>
 <td>SH_TLS_KEY</td>
 <td></td>
 <td>postfix.tls/tls.key</td>
-<td>relative to /etc/smarthost</td>
+<td>
+
+relative to /etc/smarthost
+
+</td>
         </tr>
         <tr>
 <td>SH_RELAY_HOST</td>
 <td></td>
 <td>smtp-relay.gmail.com:587</td>
-<td></td>
+<td>
+
+Description
+
+</td>
         </tr>
         <tr>
 <td>SH_RELAY_USERNAME</td>
 <td></td>
 <td>testuser</td>
-<td></td>
+<td>
+
+Description
+
+</td>
         </tr>
         <tr>
 <td>SH_RELAY_PASSWORD</td>
 <td></td>
 <td>testpassword</td>
-<td></td>
+<td>
+
+Description
+
+</td>
         </tr>
         <tr>
 <td>SH_RELAY_TLS</td>
 <td></td>
 <td>yes</td>
-<td></td>
+<td>
+
+Description
+
+</td>
         </tr>
         <tr>
 <td>SH_VERBOSE</td>
 <td></td>
 <td>yes</td>
-<td></td>
+<td>
+
+Description
+
+</td>
         </tr>
     </tbody>
 </table>
@@ -136,7 +164,7 @@ The most powerful for those who are familiar with postfix and opendkim.
 
 ## Helm chart
 
-See [chart README.md](chart)
+See [chart](chart)
 
 ## Examples
 
