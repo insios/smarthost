@@ -28,17 +28,17 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ### ENV
 
-Less powerful but simplest way
+Less powerful but simplest way to configure smarthost
 
 | ENV name | Default | Description |
 | --- | --- | --- |
 | SH_VERBOSE |  |  |
-| SH_HOSTNAME |  |  |
-| SH_ALLOWED_NETWORKS |  |  |
-| SH_AUTH |  |  |
-| SH_TLS_LEVEL |  |  |
-| SH_TLS_CRT |  |  |
-| SH_TLS_KEY |  |  |
+| SH_HOSTNAME | localhost.localdomain |  |
+| SH_ALLOWED_NETWORKS | 127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 |  |
+| SH_AUTH |  | `test:test` |
+| SH_TLS_LEVEL |  | `may` or `encrypt` |
+| SH_TLS_CRT |  | relative to /etc/smarthost |
+| SH_TLS_KEY |  | relative to /etc/smarthost |
 | SH_RELAY_HOST |  |  |
 | SH_RELAY_USERNAME |  |  |
 | SH_RELAY_PASSWORD |  |  |
