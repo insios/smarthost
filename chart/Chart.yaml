@@ -22,3 +22,16 @@ version: 0.0.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "latest"
+
+keywords:
+  - smarthost
+  - smtp
+  - mail
+  - email
+  - relay
+  - postfix
+
+home: https://github.com/insios/smarthost
+
+sources:
+  - https://github.com/insios/smarthost

@@ -2,18 +2,17 @@
 
 A smarthost is an MTA (Mail Transfer Agent), or mail relay via which third
 parties can send emails and have them forwarded to the recipient's email
-servers. So, it is specialized to deal with outbound emails.
+servers.
 
 ## Description
 
-This image allows you...
-
-Based on alpine + postfix + openssl + cyrus-sasl + opendkim
+This image allows you to run your own smarthost smtp relay for delivering emails
+from your websites (transactional emails, subscriptions, notifications etc),
+IOT devices (printers, sensors etc), and so on.
 
 Features: TLS, Auth, DKIM, relay, Proxy Protocol
 
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
+Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim
 
 ## TLDR
 
@@ -28,6 +27,22 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 ## Configuration
 
 ### ENV
+
+Less powerful but simplest way
+
+| ENV name | Default | Description |
+| --- | --- | --- |
+| SH_VERBOSE |  |  |
+| SH_HOSTNAME |  |  |
+| SH_ALLOWED_NETWORKS |  |  |
+| SH_AUTH |  |  |
+| SH_TLS_LEVEL |  |  |
+| SH_TLS_CRT |  |  |
+| SH_TLS_KEY |  |  |
+| SH_RELAY_HOST |  |  |
+| SH_RELAY_USERNAME |  |  |
+| SH_RELAY_PASSWORD |  |  |
+| SH_RELAY_TLS |  |  |
 
 ### YAML
 
@@ -48,6 +63,9 @@ See [chart README.md](chart)
 ## Tips
 
 ### DKIM
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
 
 ### SPF
 
