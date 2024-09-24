@@ -9,7 +9,7 @@ RUN apk add --update --no-cache \
         postfix postfix-pcre \
         cyrus-sasl cyrus-sasl-login cyrus-sasl-crammd5 cyrus-sasl-digestmd5 \
         opendkim opendkim-utils \
-        perl perl-yaml \
+        perl perl-yaml perl-hash-merge-simple \
         msmtp
 
 ARG APP_LIB=/usr/lib/smarthost

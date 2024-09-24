@@ -8,7 +8,7 @@ else
     echo "$3" | msmtp -v $2
     cmd="$4"
 fi
-sleep 2
+sleep 3
 if [ ! -z "$cmd" ]; then
     exec $cmd
 fi
