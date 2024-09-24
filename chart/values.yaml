@@ -103,7 +103,7 @@ service:
   # externalTrafficPolicy: Local
 
 servicePP:
-  create: false
+  create: true
   type: ClusterIP
   port: 586
   # nodePort: 30586

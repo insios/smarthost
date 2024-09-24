@@ -211,6 +211,10 @@ See [examples/low-level](examples/low-level)
 
 ## Tips
 
+### Persistance
+
+Postfix stores its mail queues in the `/var/spool/postfix` directory and you can mount your volume here so the outgoing emails are not lost when the container is restarted.
+
 ### DKIM
 
 [DomainKeys Identified Mail](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail) (DKIM) is an email authentication method designed to detect forged sender addresses in email (email spoofing), a technique often used in phishing and email spam.
