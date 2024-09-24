@@ -6,12 +6,14 @@ A smarthost is an MTA (Mail Transfer Agent), or mail relay via which third parti
 
 This image allows you to run your own smarthost (smtp relay) for delivering emails from your websites and applications (transactional emails, subscriptions, notifications etc), IOT devices (printers/scanners, sensors etc) and any other SMTP clients.
 
+Once started, the container will listen on standard submission port 587 and additional port 586 with PROXY protocol support.
+
 Supported features:
     [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
     [SMTP AUTH](https://en.wikipedia.org/wiki/SMTP_Authentication),
     [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
     [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
-    Next-hop SMTP relay.
+    next-hop SMTP relay.
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
 
