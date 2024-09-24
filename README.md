@@ -14,7 +14,7 @@ Supported features:
     [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
     [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
     next-hop SMTP relay,
-    [cert-manager](https://cert-manager.io/) when deploys to Kubernetes.
+    [cert-manager](https://cert-manager.io/) when deploys to Kubernetes with Helm chart.
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
 
@@ -104,9 +104,9 @@ domains:
 | `config.tls`                  | `{}`                          | STARTTLS configuration parameters |
 | `config.tls.level`            | `'may'`                       | The SMTP TLS security level for communicating with clients. Empty value - STARTTLS not allowed, `may` - optional STARTTLS, `encrypt` - STARTTLS required |
 | `config.tls.crt_file`         | `'postfix.tls/tls.crt'`       | Path to TLS certificate file relative to `/etc/smarthost` (don't forget to mount this file). If `config.tls.level` is not empty and no certificate provided then new self-signed certificate and key will be generated at startup automatically |
+| `config.tls.crt`              | `''`                          | OR TLS certificate value |
 | `config.tls.key_file`         | `'postfix.tls/tls.key'`       | Path to TLS private key file relative to `/etc/smarthost` (don't forget to mount this file) |
-| `config.tls.crt`              | `''`                          | TLS certificate value |
-| `config.tls.key`              | `''`                          | TLS private key value |
+| `config.tls.key`              | `''`                          | OR TLS private key value |
 | `config.relay`                | `{}`                          | The next-hop SMTP relay configuration parameters |
 | `config.relay.host`           | `'smtp-relay.gmail.com:587'`  | The next-hop SMTP relay host and port |
 | `config.relay.username`       | `'gmailuser'`                 | The next-hop SMTP relay user name |
@@ -122,7 +122,7 @@ domains:
 | `domains[].dkim`              | `{}`                          | DKIM configuration parameters for domain |
 | `domains[].dkim.selector`     | `'myrelay'`                   | DKIM selector |
 | `domains[].dkim.key_file`     | `'opendkim.keys/domain1.key'` | Path to DKIM private key file relative to `/etc/smarthost` (don't forget to mount this file) |
-| `domains[].dkim.key`          | `''`                          | DKIM private key value |
+| `domains[].dkim.key`          | `''`                          | OR DKIM private key value |
 
 ### Configuration via low-level configuration files
 
@@ -213,15 +213,36 @@ See [examples/low-level](examples/low-level)
 
 ### DKIM
 
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
+[DomainKeys Identified Mail](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail) (DKIM) is an email authentication method designed to detect forged sender addresses in email (email spoofing), a technique often used in phishing and email spam.
+
+To generate new private key and DNS TXT record for it you can use `opendkim-genkey` command (see [docs](http://www.opendkim.org/opendkim-genkey.8.html)):
+
+```shell
+opendkim-genkey -b 1024 -d mydomain.com -s myrelay
+```
 
 ### SPF
 
+[Sender Policy Framework](https://en.wikipedia.org/wiki/Sender_Policy_Framework) (SPF) is an email authentication method which ensures the sending mail server is authorized to originate mail from the email sender's domain.
+
+If you already using SPF record in your domain or want to start using it, you have to add some keys for the SPF record like:
+
+* `a:relay.mydomain.com` if your smarthost hostname `relay.mydomain.com`
+* `ip4:12.34.56.76` if an outbound public IP of you smarthost container is `12.34.56.76` and its differs from A record of your smarthost domain `relay.mydomain.com`.
+
 ### DMARC
+
+[Domain-based Message Authentication, Reporting and Conformance](https://en.wikipedia.org/wiki/DMARC) (DMARC) is an email authentication protocol. It is designed to give email domain owners the ability to protect their domain from unauthorized use, commonly known as email spoofing.
+
+This protocol does not directly affect the settings of your smarthost, but allows you to further strengthen the protection of emails from your domains by instructing recipient servers on how to act with emails that have not passed verification through SPF and DKIM methods.
+
+For example, `v=DMARC1; p=quarantine; adkim=s; aspf=s;` DMARC record tells SMTP servers of recipients that any emails that do not pass the validation according to DKIM and SPF records should be marked as spam.
+
+Be careful - if you have added a DMARC record to your domain, but have not configured the smarthost and DKIM/SPF records correctly, then all emails sent through your smarthost will be marked as spam by recipients.
 
 ### PROXY Protocol
 
-### Outbound IP
+### Outbound public IP and reverse DNS record
 
-### Reverse DNS
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
