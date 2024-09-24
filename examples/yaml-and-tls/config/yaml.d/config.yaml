@@ -1,0 +1,23 @@
+config:
+  verbose: false
+  hostname: 'relay.mydomain.com'
+  allowed_networks:
+    - '0.0.0.0/0'
+  auth: true
+  sender_restrictions: 'email' # domain | email
+  tls:
+    level: 'may' # may | encrypt
+    crt_file: postfix.tls/tls.crt
+    key_file: postfix.tls/tls.key
+
+users:
+  - name: 'user1'
+    password: 'password1'
+    allowed_from:
+      - '@mydomain.com'
+
+domains:
+  - name: 'mydomain.com'
+    dkim:
+      selector: 'myrelay'
+      key_file: opendkim.keys/mydomain.key

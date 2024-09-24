@@ -197,18 +197,6 @@ See [examples/yaml-all-in-one](examples/yaml-all-in-one)
 
 See [examples/yaml-and-tls](examples/yaml-and-tls)
 
-### Configure via YAML files per domain
-
-See [examples/yaml-per-domain](examples/yaml-per-domain)
-
-### Configure via ENV variables
-
-See [examples/env](examples/env)
-
-### Configure via low-level configuration files
-
-See [examples/low-level](examples/low-level)
-
 ## Tips
 
 ### Persistance

@@ -4,7 +4,7 @@
 
 | Path                              | Description                   |
 | --------------------------------- | ----------------------------- |
-| `./all-in-one.yaml`               | All config in one file        |
+| `./config/yaml.d/all-in-one.yaml` | All config in one file        |
 
 ## Docker
 
@@ -12,7 +12,7 @@
 docker run -d --restart unless-stopped \
     --name smarthost \
     -p 8587:587 -p 8586:586 \
-    -v ./all-in-one.yaml:/etc/smarthost/yaml.d/all-in-one.yaml \
+    -v ./config:/etc/smarthost \
     insios/smarthost
 ```
 
@@ -21,6 +21,6 @@ docker run -d --restart unless-stopped \
 ```shell
 helm upgrade --install --atomic --cleanup-on-fail \
     --namespace smarthost --create-namespace \
-    --set-file config.yaml.data.all-in-one_yaml=./all-in-one.yaml \
+    --set-file config.yaml.data.all-in-one_yaml=./config/yaml.d/all-in-one.yaml \
     smarthost oci://ghcr.io/insios/helm/smarthost
 ```
