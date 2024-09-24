@@ -215,7 +215,7 @@ See [examples/low-level](examples/low-level)
 
 [DomainKeys Identified Mail](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail) (DKIM) is an email authentication method designed to detect forged sender addresses in email (email spoofing), a technique often used in phishing and email spam.
 
-To generate new private key and DNS TXT record for it you can use `opendkim-genkey` command (see [docs](http://www.opendkim.org/opendkim-genkey.8.html)):
+To generate new private key and DNS TXT record for the domain you can use `opendkim-genkey` command (see [docs](http://www.opendkim.org/opendkim-genkey.8.html)):
 
 ```shell
 opendkim-genkey -b 1024 -d mydomain.com -s myrelay
@@ -228,19 +228,61 @@ opendkim-genkey -b 1024 -d mydomain.com -s myrelay
 If you already using SPF record in your domain or want to start using it, you have to add some keys for the SPF record like:
 
 * `a:relay.mydomain.com` if your smarthost hostname `relay.mydomain.com`
-* `ip4:12.34.56.76` if an outbound public IP of you smarthost container is `12.34.56.76` and its differs from A record of your smarthost domain `relay.mydomain.com`.
+* `ip4:12.34.56.78` if an outbound public IP of you smarthost container is `12.34.56.78` and its differs from `A` record of your smarthost domain `relay.mydomain.com`.
 
 ### DMARC
 
-[Domain-based Message Authentication, Reporting and Conformance](https://en.wikipedia.org/wiki/DMARC) (DMARC) is an email authentication protocol. It is designed to give email domain owners the ability to protect their domain from unauthorized use, commonly known as email spoofing.
+[Domain-based Message Authentication, Reporting and Conformance](https://en.wikipedia.org/wiki/DMARC) (DMARC) is an email authentication protocol that designed to give email domain owners the ability to protect their domain from unauthorized use, commonly known as email spoofing.
 
 This protocol does not directly affect the settings of your smarthost, but allows you to further strengthen the protection of emails from your domains by instructing recipient servers on how to act with emails that have not passed verification through SPF and DKIM methods.
 
-For example, `v=DMARC1; p=quarantine; adkim=s; aspf=s;` DMARC record tells SMTP servers of recipients that any emails that do not pass the validation according to DKIM and SPF records should be marked as spam.
+For example, `v=DMARC1; p=quarantine; adkim=s; aspf=s;` DMARC record tells mail servers of recipients that any emails that do not pass the validation according to DKIM and SPF records should be marked as spam.
 
 Be careful - if you have added a DMARC record to your domain, but have not configured the smarthost and DKIM/SPF records correctly, then all emails sent through your smarthost will be marked as spam by recipients.
 
-### PROXY Protocol
+### External clients real IPs and PROXY Protocol
+
+In most cases, your smarthost container will be accessible for SMTP clients outside its subnet only through some proxy or load balancer. Thus, all connections to container's port 587 will come from the single IP address of this proxy/load balancer and the `config.allowed_networks` restrictions will not work correctly for such external clients. In addition, the `Received: from [client info]` email headers will contain information about the proxy, not the real client.
+
+To solve this problem, you can use the [PROXY Protocol](https://www.haproxy.com/blog/use-the-proxy-protocol-to-preserve-a-clients-ip-address) and the corresponding container's port 586 that supports it.
+
+For example, if you runs smarthost container with a docker command:
+
+```shell
+docker run --rm --name smarthost -p 8586:586 insios/smarthost
+```
+
+then, your haproxy configuration on the same host may be like:
+
+```config
+frontend smarthost
+    bind 12.34.56.78:587
+    mode tcp
+    option tcplog
+    use_backend smarthost-pp
+
+backend smarthost-pp
+    mode tcp
+    server server1 127.0.0.1:8586 send-proxy
+```
+
+Or, if smarthost deployed to kubernetes with NodePort service on 30586 proxy protocol port, then haproxy configuration may be like:
+
+```config
+frontend smarthost
+    bind 12.34.56.78:587
+    mode tcp
+    option tcplog
+    use_backend smarthost-kube-pp
+
+backend smarthost-kube-pp
+    mode tcp
+    server node1 192.168.0.10:30586 send-proxy
+    server node2 192.168.0.20:30586 send-proxy
+    server node3 192.168.0.30:30586 send-proxy
+```
+
+Or, if you are using any load balancer in you environment, then see the corresponded documentation for it about using a PROXY protocol.
 
 ### Outbound public IP and reverse DNS record
 
