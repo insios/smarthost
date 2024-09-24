@@ -228,7 +228,7 @@ opendkim-genkey -b 1024 -d mydomain.com -s myrelay
 If you already using SPF record in your domain or want to start using it, you have to add some keys for the SPF record like:
 
 * `a:relay.mydomain.com` if your smarthost hostname `relay.mydomain.com`
-* `ip4:12.34.56.78` if an outbound public IP of you smarthost container is `12.34.56.78` and its differs from `A` record of your smarthost domain `relay.mydomain.com`.
+* `ip4:12.34.56.78` if an [outbound public IP](#outbound-public-ip) of you smarthost container is `12.34.56.78` and its differs from `A` record of your smarthost domain `relay.mydomain.com`.
 
 ### DMARC
 
