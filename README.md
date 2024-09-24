@@ -301,5 +301,5 @@ Ideally it should be, for example:
 * Submission port `587` on this IP address `12.34.56.78` forwarded to smarthost's `587` port (or smarthost's `586` port via PROXY protocol)
 * This IP address `12.34.56.78` also used by smarthost as a public IP for its outbound traffic
 * Reverse DNS record for this IP `12.34.56.78` is `relay.mydomain.com`
-* SPF DNS record of `relay.mydomain.com` contains `a:relay.mydomain.com`
+* SPF DNS records of domains from which smarthost sends emails contains `a:relay.mydomain.com`
 * Common name of smarthost's TLS certificate is `relay.mydomain.com`
