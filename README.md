@@ -13,7 +13,8 @@ Supported features:
     [SMTP AUTH](https://en.wikipedia.org/wiki/SMTP_Authentication),
     [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail),
     [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt),
-    next-hop SMTP relay.
+    next-hop SMTP relay,
+    [cert-manager](https://cert-manager.io/) when deploys to Kubernetes.
 
 Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
 
@@ -78,6 +79,7 @@ The powerful and user-friendly way to configure smarthost. Mount one or more `*.
 config:
   hostname: 'relay.mydomain.com'
   auth: true
+  sender_restrictions: 'domain'
   tls:
     level: 'may'
 
@@ -114,7 +116,7 @@ domains:
 | `users`                       | `[]`                          | Users list    |
 | `users[].name`                | `'user1'`                     | User name for authentication |
 | `users[].password`            | `'password1'`                 | Password for authentication |
-| `users[].allowed_from`        | `['noreply@mydomain.com']`    | If `config.auth` is `true` - list of allowed `From:` emails in a form `noreply@mydomain.com` or `@mydomain.com`. No restrictions if empty. |
+| `users[].allowed_from`        | `['noreply@mydomain.com']`    | If `config.sender_restrictions` is `email` - list of allowed `From:` emails in a form `abc@mydomain.com` or `@mydomain.com`. No restrictions for this user if empty. |
 | `domains`                     | `[]`                          | Domains list  |
 | `domains[].name`              | `'mydomain.com'`              | Domain name |
 | `domains[].dkim`              | `{}`                          | DKIM configuration parameters for domain |
@@ -187,11 +189,25 @@ See [chart](chart)
 
 ## Examples
 
-### Example 1
+### Configure via all-in-one YAML file
 
-### Example 2
+See [examples/yaml-all-in-one](examples/yaml-all-in-one)
 
-### Example 3
+### Configure via YAML file and TLS files
+
+See [examples/yaml-and-tls](examples/yaml-and-tls)
+
+### Configure via YAML files per domain
+
+See [examples/yaml-per-domain](examples/yaml-per-domain)
+
+### Configure via ENV variables
+
+See [examples/env](examples/env)
+
+### Configure via low-level configuration files
+
+See [examples/low-level](examples/low-level)
 
 ## Tips
 
