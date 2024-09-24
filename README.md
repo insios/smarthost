@@ -21,7 +21,7 @@ Based on alpine linux + postfix + openssl + cyrus-sasl + opendkim.
 ## TL;DR
 
 ```shell
-docker run --rm --name smarthost -p 8587:587 insios/smarthost
+docker run --rm --name smarthost -p 8587:587 -p 8586:586 insios/smarthost
 ```
 
 ```shell
@@ -240,7 +240,7 @@ For example, `v=DMARC1; p=quarantine; adkim=s; aspf=s;` DMARC record tells mail 
 
 Be careful - if you have added a DMARC record to your domain, but have not configured the smarthost and DKIM/SPF records correctly, then all emails sent through your smarthost will be marked as spam by recipients.
 
-### External clients real IPs and PROXY Protocol
+### External client's real IP and PROXY Protocol
 
 In most cases, your smarthost container will be accessible for SMTP clients outside its subnet only through some proxy or load balancer. Thus, all connections to container's port 587 will come from the single IP address of this proxy/load balancer and the `config.allowed_networks` restrictions will not work correctly for such external clients. In addition, the `Received: from [client info]` email headers will contain information about the proxy, not the real client.
 
@@ -284,7 +284,22 @@ backend smarthost-kube-pp
 
 Or, if you are using any load balancer in you environment, then see the corresponded documentation for it about using a PROXY protocol.
 
-### Outbound public IP and reverse DNS record
+### Outbound public IP
 
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
+When a smarthost delivers emails to recipient's mail servers, it connects to them as a client via the SMTP protocol. In most cases, here will be used the public IP address of the server/node on which the smarthost container is running or the public IP of the NAT gateway of this server/node.
+
+If the smarthost is launched via docker run, then you can control the public IP it uses for outgoing connections through the docker network configuration and the host's routing table.
+
+If the smarthost is running in Kubernetes, then you need to configure the egress gateway, which depends on your Kubernetes engine and its CNI networking plugin.
+
+### Proper network setup for smarthost
+
+Ideally it should be, for example:
+
+* Smarthost's hostname is `relay.mydomain.com`
+* DNS `A` record of `relay.mydomain.com` is `12.34.56.78`
+* Submission port `587` on this IP address `12.34.56.78` forwarded to smarthost's `587` port (or smarthost's `586` port via PROXY protocol)
+* This IP address `12.34.56.78` also used by smarthost as a public IP for its outbound traffic
+* Reverse DNS record for this IP `12.34.56.78` is `relay.mydomain.com`
+* SPF DNS record of `relay.mydomain.com` contains `a:relay.mydomain.com`
+* Common name of smarthost's TLS certificate is `relay.mydomain.com`
