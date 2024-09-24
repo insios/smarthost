@@ -4,7 +4,7 @@ A smarthost is an MTA (Mail Transfer Agent), or mail relay via which third parti
 
 ## Description
 
-This image allows you to run your own smarthost (smtp relay) for delivering emails from your websites (transactional emails, subscriptions, notifications etc), IOT devices (printers/scanners, sensors etc) and any other SMTP clients.
+This image allows you to run your own smarthost (smtp relay) for delivering emails from your websites and applications (transactional emails, subscriptions, notifications etc), IOT devices (printers/scanners, sensors etc) and any other SMTP clients.
 
 Supported features:
     [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
@@ -27,7 +27,9 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ## Configuration
 
-By default:
+You can configure smarthost in three different ways - via ENV variables, via YAML files or via low-level configuration files.
+
+### Defaults
 
 * Hostname is `localhost.localdomain` which will be used in `EHLO` SMTP command and in `Received: from [client] by [hostname]` mail header
 * Networks from which clients are allowed to connect and send emails: `127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16`
@@ -37,9 +39,7 @@ By default:
 * No DKIM signatures
 * No next-hop SMTP relay (direct delivery to recipient's MX servers)
 
-You can configure smarthost in three different ways - via ENV variables, via YAML files or via low-level configuration files.
-
-Configuration directories:
+### Configuration directories
 
 | Path                            | Description                   |
 | ------------------------------- | ----------------------------- |
@@ -70,7 +70,7 @@ The simplest but less powerful way to configure smarthost.
 
 ### Configuration via YAML files
 
-The powerful and user-friendly way to configure smarthost. Mount one or more yaml files into `/etc/smarthost/yaml.d` directory with a content like:
+The powerful and user-friendly way to configure smarthost. Mount one or more `*.yaml` or `*_yaml` files into `/etc/smarthost/yaml.d` directory with a content like:
 
 ```yaml
 config:
@@ -123,6 +123,61 @@ domains:
 ### Configuration via low-level configuration files
 
 The most powerful for those who are familiar with postfix and opendkim.
+
+#### Postfix configuration
+
+Mount one or more `*.conf` or `*_conf` files into `/etc/smarthost/postfix.d` directory with a content like:
+
+```shell
+# Verbose
+-M -e submission/inet="submission inet n - n - - smtpd -v"
+
+# Hostname
+-e myhostname="relay.mydomain.com"
+-e smtp_helo_name="relay.mydomain.com"
+
+# STARTTLS
+-e smtpd_tls_security_level="may"
+-e smtpd_tls_cert_file="/etc/smarthost/postfix.tls/tls.crt"
+-e smtpd_tls_key_file="/etc/smarthost/postfix.tls/tls.key"
+
+# ...
+```
+
+Each line of these files will be threaded as command line arguments to `postconf` utility.
+
+See [postconf](https://www.postfix.org/postconf.1.html),
+    [main.cf](https://www.postfix.org/postconf.5.html),
+    [master.cf](https://www.postfix.org/master.5.html).
+
+#### OpenDKIM configuration
+
+Mount `signingtable` and `keytable` files into `/etc/smarthost/opendkim` directory with a content like:
+
+```config
+# signingtable file
+# [domain] [selector]._domainkey.[domain]
+mydomain.com myrelay._domainkey.mydomain.com
+```
+
+```config
+# keytable file
+# [selector]._domainkey.[domain] [domain]:[selector]:/etc/smarthost/opendkim.keys/[keyfile]
+myrelay._domainkey.mydomain.com mydomain.com:myrelay:/etc/smarthost/opendkim.keys/mydomain.key
+
+```
+
+See [opendkim docs](http://www.opendkim.org/docs.html)
+
+#### Users list
+
+Mount one or more `*.conf` or `*_conf` files into `/etc/smarthost/users.d` directory with a space delimited usernames and passwords like:
+
+```config
+# [username] [password]
+user1       password1
+username2   password2
+```
 
 ## Helm chart
 
