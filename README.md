@@ -234,7 +234,8 @@ This protocol does not directly affect the settings of your smarthost, but it al
 
 For example, the DMARC record `v=DMARC1; p=quarantine; adkim=s; aspf=s;` instructs recipient mail servers to mark any emails that do not pass validation according to DKIM and SPF records as spam.
 
-Be careful: if you have added a DMARC record to your domain but have not configured the smarthost and DKIM/SPF records correctly, all emails sent through your smarthost may be marked as spam by recipients.
+> [!IMPORTANT]
+> Be careful: if you have added a DMARC record to your domain but have not configured the smarthost and DKIM/SPF records correctly, all emails sent through your smarthost may be marked as spam by recipients.
 
 ### External client's real IP and PROXY Protocol
 
