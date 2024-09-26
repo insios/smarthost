@@ -207,57 +207,70 @@ See [https://github.com/insios/examples/helm-full](https://github.com/insios/exa
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `100` |  |
-| autoscaling.minReplicas | int | `1` |  |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| config.env.data | object | `{}` |  |
-| config.opendkim-keys.data | object | `{}` |  |
-| config.opendkim.data | object | `{}` |  |
-| config.postfix-tls.data | object | `{}` |  |
-| config.postfix.data | object | `{}` |  |
-| config.users.data | object | `{}` |  |
-| config.yaml.data | object | `{}` |  |
-| envFrom | list | `[]` |  |
-| fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"insios/smarthost"` |  |
-| image.tag | string | `""` |  |
-| imagePullSecrets | list | `[]` |  |
-| livenessProbe.exec.command[0] | string | `"postfix"` |  |
-| livenessProbe.exec.command[1] | string | `"status"` |  |
-| livenessProbe.failureThreshold | int | `1` |  |
-| livenessProbe.initialDelaySeconds | int | `30` |  |
-| livenessProbe.periodSeconds | int | `60` |  |
-| nameOverride | string | `""` |  |
-| nodeSelector | object | `{}` |  |
-| persistence.accessMode | string | `"ReadWriteOnce"` |  |
-| persistence.enabled | bool | `false` |  |
-| persistence.existingClaim | string | `""` |  |
-| persistence.size | string | `"1Gi"` |  |
-| persistence.storageClass | string | `""` |  |
-| podAnnotations | object | `{}` |  |
-| podLabels | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| service.create | bool | `true` |  |
-| service.port | int | `587` |  |
-| service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.automount | bool | `true` |  |
-| serviceAccount.create | bool | `false` |  |
-| serviceAccount.name | string | `""` |  |
-| servicePP.create | bool | `true` |  |
-| servicePP.port | int | `586` |  |
-| servicePP.type | string | `"ClusterIP"` |  |
-| startupProbe.failureThreshold | int | `10` |  |
-| startupProbe.periodSeconds | int | `3` |  |
-| startupProbe.tcpSocket.port | string | `"smtpd"` |  |
-| tolerations | list | `[]` |  |
-| volumeMounts | list | `[]` |  |
-| volumes | list | `[]` |  |
+| affinity | object | `{}` | Affinity gives you more control over the Node selection logic. See [docs](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling.enabled | bool | `false` | Enable PODs autoscaling |
+| autoscaling.maxReplicas | int | `100` | See [docs](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/) |
+| autoscaling.minReplicas | int | `1` | See [docs](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/) |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` | See [docs](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/) |
+| config.env.data | object | `{}` | Environment variables |
+| config.env.existingName | string | `nil` | Existing secret name for environment variables |
+| config.opendkim-keys.data | object | `{}` | Opendkim private keys files |
+| config.opendkim-keys.existingName | string | `nil` | Existing secret name for opendkim private keys files |
+| config.opendkim.data | object | `{}` | Opendkim `signingtable` and `keytable` files |
+| config.opendkim.existingName | string | `nil` | Existing secret name for opendkim `signingtable` and `keytable` files |
+| config.postfix-tls.data | object | `{}` | Postfix TLS `tls.crt` and `tls.key` files |
+| config.postfix-tls.existingName | string | `nil` | Existing secret name for postfix TLS `tls.crt` and `tls.key` files |
+| config.postfix.data | object | `{}` | Postfix low-level configuration files |
+| config.postfix.existingName | string | `nil` | Existing secret name for postfix low-level configuration files |
+| config.users.data | object | `{}` | Low-level usernames and passwords |
+| config.users.existingName | string | `nil` | Existing secret name for low-level usernames and passwords |
+| config.yaml.data | object | `{}` | YAML configuration files |
+| config.yaml.existingName | string | `nil` | Existing secret name for YAML configuration files |
+| envFrom | list | `[]` | Additional ENV from Secrets or ConfigMaps on the output Deployment definition. |
+| fullnameOverride | string | `""` | Overrides the full prefix of resource names |
+| image.pullPolicy | string | `"IfNotPresent"` | See [docs](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) |
+| image.repository | string | `"insios/smarthost"` | The image repository |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion |
+| imagePullSecrets | list | `[]` | See [docs](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod) |
+| livenessProbe.exec | object | `{"command":["postfix","status"]}` | Command to check |
+| livenessProbe.failureThreshold | int | `1` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| livenessProbe.initialDelaySeconds | int | `30` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| livenessProbe.periodSeconds | int | `60` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| livenessProbeEnabled | bool | `true` | Enable [Liveness Probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#liveness-probe) |
+| nameOverride | string | `""` | Overrides the Helm chart name used to construct resource names |
+| nodeSelector | object | `{}` | You can add the nodeSelector here and specify the node labels you want the target node to have. See [docs](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
+| persistence.accessMode | string | `"ReadWriteOnce"` | See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) |
+| persistence.enabled | bool | `false` | Enable persistence for `/var/spool/postfix` directory |
+| persistence.existingClaim | string | `""` | See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) |
+| persistence.size | string | `"1Gi"` | See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) |
+| persistence.storageClass | string | `""` | See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) |
+| podAnnotations | object | `{}` | Additional annotations for POD |
+| podLabels | object | `{}` | Additional labels for POD |
+| podSecurityContext | object | `{}` | Security context for POD, see [docs](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| readinessProbe.failureThreshold | int | `1` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| readinessProbe.initialDelaySeconds | int | `30` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| readinessProbe.periodSeconds | int | `10` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| readinessProbe.tcpSocket | object | `{"port":"smtpd"}` | Port to check |
+| readinessProbeEnabled | bool | `false` | Enable [Readiness Probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#readiness-probe) |
+| replicaCount | int | `1` | Number of PODs to load balance between |
+| resources | object | `{}` | Resource management. See [docs](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
+| securityContext | object | `{}` | Security context for container, see [docs](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
+| service.create | bool | `true` | Create service for submission port 587 |
+| service.port | int | `587` | Submission service port |
+| service.type | string | `"ClusterIP"` | See [docs](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.automount | bool | `true` | Automatically mount a ServiceAccount's API credentials? |
+| serviceAccount.create | bool | `false` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| servicePP.create | bool | `true` | Create service for submission port 586 with PROXY protocol |
+| servicePP.port | int | `586` | PROXY protocol service port |
+| servicePP.type | string | `"ClusterIP"` | See [docs](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) |
+| startupProbe.failureThreshold | int | `10` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| startupProbe.periodSeconds | int | `3` | See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
+| startupProbe.tcpSocket | object | `{"port":"smtpd"}` | Port to check |
+| startupProbeEnabled | bool | `true` | Enable [Startup Probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#startup-probe) |
+| tolerations | list | `[]` | Tolerations allow the scheduler to schedule pods with matching taints See [docs](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
+| volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. See [docs](https://kubernetes.io/docs/concepts/storage/volumes/) |
+| volumes | list | `[]` | Additional volumes on the output Deployment definition. See [docs](https://kubernetes.io/docs/concepts/storage/volumes/) |
 
 > All values table autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

@@ -1,3 +1,4 @@
 #!/bin/bash
 
-helm-docs -c chart -o README-hd.md
+# -s alphanum
+helm-docs -c chart -s alphanum -o README-hd.md
