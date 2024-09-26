@@ -20,7 +20,7 @@ helm upgrade --install --atomic --cleanup-on-fail \
     --set-file config.yaml.data.config\\.yaml=./yaml.d/config.yaml \
     --set-file config.yaml.data.domains\\.yaml=./yaml.d/domains.yaml \
     --set-file config.yaml.data.users\\.yaml=./yaml.d/users.yaml \
-    --set-file config.opendkim-keys.data.domain1\\.key=./opendkim.keys/domain1.key \
-    --set-file config.opendkim-keys.data.domain2\\.key=./opendkim.keys/domain2.key \
+    --set-file config.opendkim-keys.data.mydomain1\\.key=./opendkim.keys/mydomain1.key \
+    --set-file config.opendkim-keys.data.mydomain2\\.key=./opendkim.keys/mydomain2.key \
     smarthost oci://ghcr.io/insios/helm/smarthost --version 1.0.0
 ```
