@@ -1,0 +1,41 @@
+image:
+  # Override an outdated application version in the chart
+  tag: 1.0.0
+
+config:
+  yaml:
+    data: {}
+    # --set-file config.yaml.data.[config.yaml, domains.yaml, users.yaml]
+  opendkim-keys:
+    data: {}
+    # --set-file config.opendkim-keys.data.[domain1.key, domain2.key]
+  postfix-tls:
+    cert-manager:
+      commonName: relay.mydomain.com
+      issuerRef:
+        kind: ClusterIssuer
+        name: letsencrypt-production
+
+persistence:
+  enabled: true
+  size: 1Gi
+
+replicaCount: 1
+
+nodeSelector:
+  publicIP: 12.34.56.78
+
+service:
+  create: true
+  # type: LoadBalancer
+  type: NodePort
+  nodePort: 30587
+
+servicePP:
+  create: true
+  # type: LoadBalancer
+  type: NodePort
+  nodePort: 30586
+
+serviceAccount:
+  create: true
