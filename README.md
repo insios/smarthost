@@ -1,12 +1,12 @@
 # INSIOS/smarthost
 
-A smarthost is an MTA (Mail Transfer Agent), or mail relay via which third parties can send emails and have them forwarded to the recipient's email servers.
+A smarthost is a Mail Transfer Agent (MTA) or mail relay that allows third parties to send emails, which are then forwarded to the recipient's email servers.
 
 ## Description
 
-This image allows you to run your own smarthost (smtp relay) for delivering emails from your websites and applications (transactional emails, subscriptions, notifications etc), IOT devices (printers/scanners, sensors etc) and any other SMTP clients.
+This image allows you to run your own smarthost (SMTP relay) service for delivering emails from your websites and applications (such as transactional emails, subscriptions, notifications etc.) as well as from IoT devices (like printers, scanners, sensors etc.) and any other SMTP clients.
 
-Once started, the container will listen on standard submission port 587 and additional port 586 with PROXY protocol support.
+Once started, the container will listen on the standard submission port 587, as well as on port 586 with PROXY protocol support.
 
 Supported features:
     [STARTTLS](https://en.wikipedia.org/wiki/STARTTLS),
@@ -30,11 +30,11 @@ helm upgrade --install smarthost oci://ghcr.io/insios/helm/smarthost
 
 ## Configuration
 
-You can configure smarthost in three different ways - via ENV variables, via YAML files or via low-level configuration files.
+You can configure the smarthost in three different ways: using environment variables, YAML files, or low-level configuration files.
 
 ### Defaults
 
-* Hostname is `localhost.localdomain` which will be used in `EHLO` SMTP command and in `Received: from [client] by [hostname]` mail header
+* The hostname is `localhost.localdomain`, which will be used in the `EHLO` SMTP command and in the `Received: from [client] by [hostname]` mail header
 * Networks from which clients are allowed to connect and send emails: `127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16`
 * No clients authentication
 * No STARTTLS support
@@ -55,16 +55,16 @@ You can configure smarthost in three different ways - via ENV variables, via YAM
 
 ### Configuration via ENV variables
 
-The simplest but less powerful way to configure smarthost.
+The simplest, but less powerful way to configure the smarthost.
 
 | Name                  | Example value                 | Description |
 | --------------------- | ----------------------------- | ----------- |
 | `SH_HOSTNAME`         | `relay.mydomain.com`          | Hostname of smarthost which will be used in `EHLO` SMTP command and in `Received: from [client] by [hostname]` mail header |
-| `SH_ALLOWED_NETWORKS` | `0.0.0.0/0` | Coma or space delimited networks and IP addresses from which clients are allowed to connect and send emails |
-| `SH_AUTH`             | `user:password`               | Colon delimited username and password for clients authentication |
-| `SH_TLS_LEVEL`        | `may`                         | The SMTP TLS security level for communicating with clients. Empty value - STARTTLS not allowed, `may` - optional STARTTLS, `encrypt` - STARTTLS required |
-| `SH_TLS_CRT`          | `postfix.tls/tls.crt`         | Path to TLS certificate file relative to `/etc/smarthost` (don't forget to mount this file). If `SH_TLS_LEVEL` is not empty and no certificate file provided here then new self-signed certificate and key will be generated at startup automatically |
-| `SH_TLS_KEY`          | `postfix.tls/tls.key`         | Path to TLS private key file relative to `/etc/smarthost` (don't forget to mount this file) |
+| `SH_ALLOWED_NETWORKS` | `0.0.0.0/0` | Comma- or space-delimited networks and IP addresses from which clients are allowed to connect and send emails |
+| `SH_AUTH`             | `user:password`               | Colon-delimited username and password for client authentication |
+| `SH_TLS_LEVEL`        | `may`                         | The SMTP TLS security level for communicating with clients: an empty value means STARTTLS is not allowed, `may` makes STARTTLS optional, and `encrypt` requires STARTTLS |
+| `SH_TLS_CRT`          | `postfix.tls/tls.crt`         | Path to the TLS certificate file, relative to `/etc/smarthost` (ensure the file is mounted). If `SH_TLS_LEVEL` is not empty and no certificate file is provided, a new self-signed certificate and key will be automatically generated at startup |
+| `SH_TLS_KEY`          | `postfix.tls/tls.key`         | Path to the TLS private key file, relative to `/etc/smarthost` (ensure the file is mounted) |
 | `SH_RELAY_HOST`       | `smtp-relay.gmail.com:587`    | The next-hop SMTP relay host and port |
 | `SH_RELAY_USERNAME`   | `gmailuser`                   | The next-hop SMTP relay user name |
 | `SH_RELAY_PASSWORD`   | `gmailpassword`               | The next-hop SMTP relay password |
@@ -73,7 +73,7 @@ The simplest but less powerful way to configure smarthost.
 
 ### Configuration via YAML files
 
-The powerful and user-friendly way to configure smarthost. Mount one or more `*.yaml` or `*_yaml` files into `/etc/smarthost/yaml.d` directory with a content like:
+The powerful and user-friendly method to configure the smarthost is to mount one or more `*.yaml` or `*_yaml` files into the `/etc/smarthost/yaml.d` directory, containing content like:
 
 ```yaml
 config:
@@ -98,14 +98,14 @@ domains:
 | ----------------------------- | ----------------------------- | ------------- |
 | `config`                      | `{}`                          | Configuration parameters |
 | `config.hostname`             | `'relay.mydomain.com'`        | Hostname of smarthost which will be used in `EHLO` SMTP command and in `Received: from [client] by [hostname]` mail header |
-| `config.allowed_networks`     | `['0.0.0.0/0']`               | Array of networks and IP addresses from which clients are allowed to connect and send emails |
-| `config.auth`                 | `true`                        | Enable clients authentication |
-| `config.sender_restrictions`  | `'email'`                     | Enable clients `From:` restrictions: `domain` - allow only listed domains or `email` - allow only listed emails |
+| `config.allowed_networks`     | `['0.0.0.0/0']`               | An array of networks and IP addresses from which clients are allowed to connect and send emails |
+| `config.auth`                 | `true`                        | Enable client authentication |
+| `config.sender_restrictions`  | `'email'`                     | Enable client `From:` restrictions: `domain` allows only listed domains, and `email` allows only listed email addresses |
 | `config.tls`                  | `{}`                          | STARTTLS configuration parameters |
-| `config.tls.level`            | `'may'`                       | The SMTP TLS security level for communicating with clients. Empty value - STARTTLS not allowed, `may` - optional STARTTLS, `encrypt` - STARTTLS required |
-| `config.tls.crt_file`         | `'postfix.tls/tls.crt'`       | Path to TLS certificate file relative to `/etc/smarthost` (don't forget to mount this file). If `config.tls.level` is not empty and no certificate provided then new self-signed certificate and key will be generated at startup automatically |
+| `config.tls.level`            | `'may'`                       | The SMTP TLS security level for communicating with clients: an empty value means STARTTLS is not allowed, `may` makes STARTTLS optional, and `encrypt` requires STARTTLS |
+| `config.tls.crt_file`         | `'postfix.tls/tls.crt'`       | Path to the TLS certificate file, relative to `/etc/smarthost` (ensure the file is mounted). If `SH_TLS_LEVEL` is not empty and no certificate file is provided, a new self-signed certificate and key will be automatically generated at startup |
 | `config.tls.crt`              | `''`                          | OR TLS certificate value |
-| `config.tls.key_file`         | `'postfix.tls/tls.key'`       | Path to TLS private key file relative to `/etc/smarthost` (don't forget to mount this file) |
+| `config.tls.key_file`         | `'postfix.tls/tls.key'`       | Path to the TLS private key file, relative to `/etc/smarthost` (ensure the file is mounted) |
 | `config.tls.key`              | `''`                          | OR TLS private key value |
 | `config.relay`                | `{}`                          | The next-hop SMTP relay configuration parameters |
 | `config.relay.host`           | `'smtp-relay.gmail.com:587'`  | The next-hop SMTP relay host and port |
@@ -116,21 +116,21 @@ domains:
 | `users`                       | `[]`                          | Users list    |
 | `users[].name`                | `'user1'`                     | User name for authentication |
 | `users[].password`            | `'password1'`                 | Password for authentication |
-| `users[].allowed_from`        | `['noreply@mydomain.com']`    | If `config.sender_restrictions` is `email` - list of allowed `From:` emails in a form `abc@mydomain.com` or `@mydomain.com`. No restrictions for this user if empty. |
+| `users[].allowed_from`        | `['noreply@mydomain.com']`    | If `config.sender_restrictions` is set to `email`, it should contain a list of allowed `From:` email addresses in the format in a form `abc@mydomain.com` or `@mydomain.com`. If empty, there are no restrictions for this user |
 | `domains`                     | `[]`                          | Domains list  |
 | `domains[].name`              | `'mydomain.com'`              | Domain name |
 | `domains[].dkim`              | `{}`                          | DKIM configuration parameters for domain |
 | `domains[].dkim.selector`     | `'myrelay'`                   | DKIM selector |
-| `domains[].dkim.key_file`     | `'opendkim.keys/domain1.key'` | Path to DKIM private key file relative to `/etc/smarthost` (don't forget to mount this file) |
+| `domains[].dkim.key_file`     | `'opendkim.keys/domain1.key'` | Path to DKIM private key file relative to `/etc/smarthost` (ensure the file is mounted) |
 | `domains[].dkim.key`          | `''`                          | OR DKIM private key value |
 
 ### Configuration via low-level configuration files
 
-The most powerful for those who are familiar with postfix and opendkim.
+The most powerful option for those familiar with Postfix and OpenDKIM.
 
 #### Postfix configuration
 
-Mount one or more `*.conf` or `*_conf` files into `/etc/smarthost/postfix.d` directory with a content like:
+Mount one or more `*.conf` or `*_conf` files into the `/etc/smarthost/postfix.d` directory, containing content like:
 
 ```shell
 # Verbose
@@ -148,7 +148,7 @@ Mount one or more `*.conf` or `*_conf` files into `/etc/smarthost/postfix.d` dir
 # ...
 ```
 
-Each line of these files will be threaded as command line arguments to `postconf` utility.
+Each line of these files will be treated as command line arguments for the `postconf` utility.
 
 See [postconf](https://www.postfix.org/postconf.1.html),
     [main.cf](https://www.postfix.org/postconf.5.html),
@@ -156,7 +156,7 @@ See [postconf](https://www.postfix.org/postconf.1.html),
 
 #### OpenDKIM configuration
 
-Mount `signingtable` and `keytable` files into `/etc/smarthost/opendkim` directory with a content like:
+Mount the `signingtable` and `keytable` files into the `/etc/smarthost/opendkim` directory, containing content like:
 
 ```config
 # signingtable file
@@ -175,7 +175,7 @@ See [opendkim docs](http://www.opendkim.org/docs.html)
 
 #### Users list
 
-Mount one or more `*.conf` or `*_conf` files into `/etc/smarthost/users.d` directory with a space delimited usernames and passwords like:
+Mount one or more `*.conf` or `*_conf` files into the `/etc/smarthost/users.d` directory, containing space-delimited usernames and passwords like:
 
 ```config
 # [username] [password]
@@ -201,13 +201,13 @@ See [examples/yaml-and-tls](examples/yaml-and-tls)
 
 ### Persistance
 
-Postfix stores its mail queues in the `/var/spool/postfix` directory and you can mount your volume here so the outgoing emails are not lost when the container is restarted.
+Postfix stores its mail queues in the `/var/spool/postfix` directory, and you can mount your volume here to ensure that outgoing emails are not lost when the container is restarted.
 
 ### DKIM
 
 [DomainKeys Identified Mail](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail) (DKIM) is an email authentication method designed to detect forged sender addresses in email (email spoofing), a technique often used in phishing and email spam.
 
-To generate new private key and DNS TXT record for the domain you can use `opendkim-genkey` command (see [docs](http://www.opendkim.org/opendkim-genkey.8.html)):
+To generate a new private key and DNS TXT record for the domain you can use the `opendkim-genkey` command (see [docs](http://www.opendkim.org/opendkim-genkey.8.html)):
 
 ```shell
 opendkim-genkey -b 1024 -d mydomain.com -s myrelay
@@ -217,40 +217,39 @@ opendkim-genkey -b 1024 -d mydomain.com -s myrelay
 
 [Sender Policy Framework](https://en.wikipedia.org/wiki/Sender_Policy_Framework) (SPF) is an email authentication method which ensures the sending mail server is authorized to originate mail from the email sender's domain.
 
-If you already using SPF record in your domain or want to start using it, you have to add some keys for the SPF record like:
+If you are already using an SPF record for your domain or want to start using it,you need to add some keys to the SPF record, such as:
 
 * `a:relay.mydomain.com` if your smarthost hostname `relay.mydomain.com`
-* `ip4:12.34.56.78` if an [outbound public IP](#outbound-public-ip) of you smarthost container is `12.34.56.78` and its differs from `A` record of your smarthost domain `relay.mydomain.com`.
+* `ip4:12.34.56.78` if the [outbound public IP](#outbound-public-ip) of your smarthost container is `12.34.56.78` and differs from the `A` record of your smarthost domain `relay.mydomain.com`.
 
 ### DMARC
 
-[Domain-based Message Authentication, Reporting and Conformance](https://en.wikipedia.org/wiki/DMARC) (DMARC) is an email authentication protocol that designed to give email domain owners the ability to protect their domain from unauthorized use, commonly known as email spoofing.
+[Domain-based Message Authentication, Reporting and Conformance](https://en.wikipedia.org/wiki/DMARC) (DMARC) is an email authentication protocol that helps protect against email spoofing and phishing by allowing domain owners to specify how unauthenticated emails should be handled.
 
-This protocol does not directly affect the settings of your smarthost, but allows you to further strengthen the protection of emails from your domains by instructing recipient servers on how to act with emails that have not passed verification through SPF and DKIM methods.
+This protocol does not directly affect the settings of your smarthost, but it allows you to further strengthen the protection of emails from your domains by instructing recipient servers on how to handle emails that have not passed verification through SPF and DKIM methods.
 
-For example, `v=DMARC1; p=quarantine; adkim=s; aspf=s;` DMARC record tells mail servers of recipients that any emails that do not pass the validation according to DKIM and SPF records should be marked as spam.
+For example, the DMARC record `v=DMARC1; p=quarantine; adkim=s; aspf=s;` instructs recipient mail servers to mark any emails that do not pass validation according to DKIM and SPF records as spam.
 
-Be careful - if you have added a DMARC record to your domain, but have not configured the smarthost and DKIM/SPF records correctly, then all emails sent through your smarthost will be marked as spam by recipients.
+Be careful: if you have added a DMARC record to your domain but have not configured the smarthost and DKIM/SPF records correctly, all emails sent through your smarthost may be marked as spam by recipients.
 
 ### External client's real IP and PROXY Protocol
 
-In most cases, your smarthost container will be accessible for SMTP clients outside its subnet only through some proxy or load balancer. Thus, all connections to container's port 587 will come from the single IP address of this proxy/load balancer and the `config.allowed_networks` restrictions will not work correctly for such external clients. In addition, the `Received: from [client info]` email headers will contain information about the proxy, not the real client.
+In most cases, your smarthost container will be accessible to SMTP clients outside its subnet only through a proxy or load balancer. As a result, all connections to the container's port 587 will originate from the single IP address of this proxy or load balancer, which means that the `config.allowed_networks` restrictions may not function correctly for external clients. Additionally, the `Received: from [client info]` email headers will contain information about the proxy rather than the real client.
 
-To solve this problem, you can use the [PROXY Protocol](https://www.haproxy.com/blog/use-the-proxy-protocol-to-preserve-a-clients-ip-address) and the corresponding container's port 586 that supports it.
+To solve this problem, you can use the [PROXY Protocol](https://www.haproxy.com/blog/use-the-proxy-protocol-to-preserve-a-clients-ip-address) along with the corresponding container's port 586, which supports it.
 
-For example, if you runs smarthost container with a docker command:
+For example, if you run the smarthost container using a Docker command:
 
 ```shell
 docker run --rm --name smarthost -p 8586:586 insios/smarthost
 ```
 
-then, your haproxy configuration on the same host may be like:
+then, your HAProxy configuration on the same host may look like this:
 
 ```config
 frontend smarthost
     bind 12.34.56.78:587
     mode tcp
-    option tcplog
     use_backend smarthost-pp
 
 backend smarthost-pp
@@ -258,13 +257,12 @@ backend smarthost-pp
     server server1 127.0.0.1:8586 send-proxy
 ```
 
-Or, if smarthost deployed to kubernetes with NodePort service on 30586 proxy protocol port, then haproxy configuration may be like:
+Alternatively, if the smarthost is deployed to Kubernetes with a NodePort service on port 30586 for the proxy protocol, then the HAProxy configuration may look like this:
 
 ```config
 frontend smarthost
     bind 12.34.56.78:587
     mode tcp
-    option tcplog
     use_backend smarthost-kube-pp
 
 backend smarthost-kube-pp
@@ -274,19 +272,19 @@ backend smarthost-kube-pp
     server node3 192.168.0.30:30586 send-proxy
 ```
 
-Or, if you are using any load balancer in you environment, then see the corresponded documentation for it about using a PROXY protocol.
+Alternatively, if you are using any load balancer in your environment, refer to the corresponding documentation for guidance on using the PROXY protocol.
 
 ### Outbound public IP
 
-When a smarthost delivers emails to recipient's mail servers, it connects to them as a client via the SMTP protocol. In most cases, here will be used the public IP address of the server/node on which the smarthost container is running or the public IP of the NAT gateway of this server/node.
+When a smarthost delivers emails to recipient mail servers, it connects to them as a client using the SMTP protocol. In most cases, the public IP address of the server running the smarthost container will be used, or the public IP address of the NAT gateway for that server.
 
-If the smarthost is launched via docker run, then you can control the public IP it uses for outgoing connections through the docker network configuration and the host's routing table.
+If the smarthost is launched via Docker, you can control the public IP it uses for outgoing connections through the Docker network configuration and the host's routing table.
 
-If the smarthost is running in Kubernetes, then you need to configure the egress gateway, which depends on your Kubernetes engine and its CNI networking plugin.
+If the smarthost is running in Kubernetes, you need to schedule the pod to the correct node or configure the egress gateway, depending on your Kubernetes engine and its CNI networking plugin.
 
-### Proper network setup for smarthost
+### Proper network setup for a smarthost
 
-Ideally it should be, for example:
+Ideally, it should be set up as follows:
 
 * Smarthost's hostname is `relay.mydomain.com`
 * DNS `A` record of `relay.mydomain.com` is `12.34.56.78`

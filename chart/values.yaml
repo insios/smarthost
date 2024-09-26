@@ -4,11 +4,16 @@
 
 config:
   postfix:
+    # @ignored
     type: files
+    # @ignored
     directory: postfix.d
     # kind: ConfigMap
+    data: {}
   postfix-tls:
+    # @ignored
     type: tls
+    # @ignored
     directory: postfix.tls
     # existingName: my-postfix-tls
     # cert-manager:
@@ -16,20 +21,35 @@ config:
     #   issuerRef:
     #     kind: ClusterIssuer
     #     name: letsencrypt-production
+    data: {}
   opendkim:
+    # @ignored
     type: files
+    # @ignored
     directory: opendkim
+    data: {}
   opendkim-keys:
+    # @ignored
     type: files
+    # @ignored
     directory: opendkim.keys
+    data: {}
   users:
+    # @ignored
     type: files
+    # @ignored
     directory: users.d
+    data: {}
   yaml:
+    # @ignored
     type: files
+    # @ignored
     directory: yaml.d
+    data: {}
   env:
+    # @ignored
     type: env
+    data: {}
 
 # /var/spool/postfix
 persistence:

@@ -1,6 +1,8 @@
 apiVersion: v2
 name: smarthost
-description: smarthost
+description: A smarthost is an MTA (Mail Transfer Agent), or mail relay
+  via which third parties can send emails and have them forwarded to the
+  recipient's email servers.
 
 # A chart can be either an 'application' or a 'library' chart.
 #

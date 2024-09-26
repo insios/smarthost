@@ -2,12 +2,12 @@
 
 ## Configuration files
 
-| Path                                  | Description                   |
-| ------------------------------------- | ----------------------------- |
-| `./config/yaml.d/config.yaml`         | YAML config                   |
-| `./config/postfix.tls/tls.crt`        | Postfix TLS certificate       |
-| `./config/postfix.tls/tls.key`        | Postfix TLS private key       |
-| `./config/opendkim.keys/mydomain.key` | DKIM private key for mydomain.com |
+| Path                                  | Description                       |
+| ------------------------------------- | --------------------------------- |
+| `config/yaml.d/config.yaml`           | YAML config                       |
+| `config/postfix.tls/tls.crt`          | Postfix TLS certificate           |
+| `config/postfix.tls/tls.key`          | Postfix TLS private key           |
+| `config/opendkim.keys/mydomain.key`   | DKIM private key for mydomain.com |
 
 ## Docker
 

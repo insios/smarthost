@@ -1,0 +1,3 @@
+#!/bin/bash
+
+helm-docs -c chart -o README-hd.md
