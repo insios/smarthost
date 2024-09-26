@@ -101,11 +101,14 @@ config:
             level: 'may'
       users.yaml: |
         users:
-          - name: 'user'
-            password: 'password'
+          - name: 'user1'
+            password: 'password1'
+          - name: 'user2'
+            password: 'password2'
       domains.yaml: |
         domains:
-          - name: 'mydomain.com'
+          - name: 'mydomain1.com'
+          - name: 'mydomain2.com'
 ```
 
 ```yaml
@@ -165,9 +168,31 @@ config:
 
 ### Cert-Manager TLS certificate
 
-See [https://cert-manager.io/docs/usage/certificate/](https://cert-manager.io/docs/usage/certificate/)
+The `postfix-tls` secret configuration has a `cert-manager` key that can contain parameters for the `Certificate` resource. See [https://cert-manager.io/docs/usage/certificate/](https://cert-manager.io/docs/usage/certificate/)
+
+```yaml
+# Your values.yaml 
+config:
+  postfix-tls:
+    cert-manager:
+      commonName: 'relay.mydomain.com'
+      issuerRef:
+        kind: ClusterIssuer
+        name: letsencrypt-production
+```
 
 ### Existing secrets
+
+If the smarthost configuration is completely or partially outside the scope of the Helm deployment, then each secret can have a corresponding `existingName` key.
+
+```yaml
+# Your values.yaml 
+config:
+  postfix-tls:
+    existingName: 'my-postfix-tls'
+  opendkim-keys:
+    existingName: 'my-dkim-keys'
+```
 
 ### Full example
 

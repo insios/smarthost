@@ -197,6 +197,10 @@ See [examples/yaml-all-in-one](examples/yaml-all-in-one)
 
 See [examples/yaml-and-tls](examples/yaml-and-tls)
 
+### Helm full configuration
+
+See [examples/helm-full](examples/helm-full)
+
 ## Tips
 
 ### Persistance
