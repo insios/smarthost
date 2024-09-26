@@ -73,7 +73,7 @@ The simplest, but less powerful way to configure the smarthost.
 
 ### Configuration via YAML files
 
-The powerful and user-friendly method to configure the smarthost is to mount one or more `*.yaml` or `*_yaml` files into the `/etc/smarthost/yaml.d` directory, containing content like:
+The recommended, powerful, and user-friendly method to configure the smarthost is to mount one or more `*.yaml` or `*_yaml` files into the `/etc/smarthost/yaml.d` directory, containing content like:
 
 ```yaml
 config:
