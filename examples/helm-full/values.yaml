@@ -1,0 +1,64 @@
+image:
+  # Override an outdated application version in the chart
+  tag: 1.0.0
+
+config:
+  yaml:
+    data:
+      # We can set any configuration parameters right here
+      from-values.yaml:
+        config:
+          hostname: 'relay.mydomain.com'
+          allowed_networks:
+            - '0.0.0.0/0'
+      # And add additional configuration files, such as CI/CD secrets via
+      # --set-file config.yaml.data.[config.yaml, domains.yaml, users.yaml]
+  opendkim-keys:
+    data: {}
+    # And DKIM private keys, such as CI/CD secrets via
+    # --set-file config.opendkim-keys.data.[domain1.key, domain2.key]
+  postfix-tls:
+    # Use cert-manager to obtain TLS certificate
+    cert-manager:
+      commonName: relay.mydomain.com
+      issuerRef:
+        kind: ClusterIssuer
+        name: letsencrypt-production
+
+# We need persistence to ensure that outgoing emails are not lost
+# when the pod is restarted
+persistence:
+  enabled: true
+  size: 1Gi
+
+# One replica is enough for us
+replicaCount: 1
+
+# One of the methods for controlling a public IP address for outgoing
+# traffic is to schedule pods only on nodes behind the required NAT gateway
+nodeSelector:
+  publicIP: 12.34.56.78
+
+# We need a submission service on port 587 for our applications,
+# which runs on the same kubernetes cluster
+service:
+  create: true
+  type: ClusterIP
+  # External clients will connect via the PROXY protocol
+  # type: LoadBalancer
+  # type: NodePort
+  # nodePort: 30587
+
+# For external clients, we can use a self-managed HAProxy load balancer
+# with a round-robin algorithm to route to the cluster's nodes
+# port 30586 using the PROXY protocol
+servicePP:
+  create: true
+  type: NodePort
+  nodePort: 30586
+  # Alternatively, we can use a managed load balancer provided by the host
+  # type: LoadBalancer
+
+# Do we really need this?
+# serviceAccount:
+#   create: true

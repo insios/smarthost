@@ -1,0 +1,74 @@
+{{- define "chart.config" }}
+{{- range $configName, $config := .Values.config }}
+{{- if or $config.existingName $config.data $config.certManager }}
+{{- $objName := $config.existingName | default (print (include "chart.fullname" $) "-" $configName) }}
+{{- $objKind := title (default "Secret" $config.kind) }}
+
+{{- if eq "env" $config.type }}
+  {{- $_ := set $.Values "envFrom" (append $.Values.envFrom (dict
+    (print (untitle $objKind) "Ref") (dict
+      "name" $objName
+    )
+  )) }}
+{{- else }}
+  {{- $_ := set $.Values "volumeMounts" (append $.Values.volumeMounts (dict
+    "name" $configName
+    "mountPath" (print "/etc/smarthost/" $config.directory)
+  )) }}
+  {{- $_ := set $.Values "volumes" (append $.Values.volumes (dict
+    "name" $configName
+    (untitle $objKind) (dict
+      (ternary "secretName" "name" (eq "Secret" $objKind)) $objName
+    )
+  )) }}
+{{- end }}
+
+{{- if $config.data }}
+---
+apiVersion: v1
+kind: {{ $objKind }}
+metadata:
+  name: {{ include "chart.fullname" $ }}-{{ $configName }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+{{- if (eq "Secret" $objKind) }}
+type: {{ ternary "kubernetes.io/tls" "Opaque" (eq "tls" $config.type) }}
+{{- /*
+# stringData leaves old keys while updatind...
+# {{- with $config.data }}
+# stringData:
+#   {{- toYaml . | nindent 2 }}
+# {{- end }}
+*/}}
+data:
+{{- range $fileName, $fileData := $config.data }}
+{{- if (kindIs "string" $fileData) }}
+  {{ $fileName }}: {{ $fileData | b64enc | quote }}
+{{- else }}
+  {{ $fileName }}: {{ $fileData | toYaml | b64enc | quote }}
+{{- end }}
+{{- end }}
+{{- else }}
+{{- with $config.data }}
+data:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- if $config.certManager }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "chart.fullname" $ }}-{{ $configName }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+spec:
+  secretName: {{ include "chart.fullname" $ }}-{{ $configName }}
+  {{- $config.certManager | toYaml | nindent 2 }}
+{{- end }}
+
+{{- end }}
+{{- end }}
+{{- end }}

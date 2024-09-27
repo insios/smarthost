@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. ./devel/bin/config.sh helm
+
+helm template smarthost $HELM_CHART $HELM_VALUES

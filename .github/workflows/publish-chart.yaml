@@ -1,0 +1,68 @@
+name: Publish helm chart
+run-name: Publish helm chart
+
+on:
+  push:
+    tags: ["chart-*"]
+    branches: ['main', 'devel']
+    paths: ['chart/**']
+
+env:
+  CHART_PATH: chart
+  UPDATE_DEPS: 'false'
+  # GitHub Container registry
+  GHCR_NAME: ${{ github.repository_owner }}/helm
+  # Docker Hub
+  # DHUB_NAME: insios-helm
+  # DHUB_USERNAME: ${{ secrets.INSIOS_DOCKER_USERNAME }}
+  # DHUB_PASSWORD: ${{ secrets.INSIOS_DOCKER_PASSWORD }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Extract metadata (chart name, tag)
+        id: meta
+        run: |
+          echo "name=$(helm show chart ${{ env.CHART_PATH }} | grep 'name:' | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "tag=$(echo '${{ github.ref_name }}' | awk -F '-' '{print $2}')" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=0.0.0-${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name:  Build and push Helm chart to Container registry
+        uses: appany/helm-oci-chart-releaser@v0.4.2
+        with:
+          path: ${{ env.CHART_PATH }}
+          update_dependencies: '${{ env.UPDATE_DEPS }}'
+          name: ${{ steps.meta.outputs.name }}
+          tag: ${{ steps.meta.outputs.tag }}
+          registry: ghcr.io
+          registry_username: ${{ github.actor }}
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ env.GHCR_NAME }}
+
+      # - name:  Build and push Helm chart to Docker Hub
+      #   uses: appany/helm-oci-chart-releaser@v0.4.2
+      #   with:
+      #     path: ${{ env.CHART_PATH }}
+      #     update_dependencies: '${{ env.UPDATE_DEPS }}'
+      #     name: ${{ steps.meta.outputs.name }}
+      #     tag: ${{ steps.meta.outputs.tag }}
+      #     registry: registry-1.docker.io
+      #     registry_username: ${{ env.DHUB_USERNAME }}
+      #     registry_password: ${{ env.DHUB_PASSWORD }}
+      #     repository: ${{ env.DHUB_NAME }}

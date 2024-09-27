@@ -1,0 +1,9 @@
+config:
+  # Already set in the Helm values.yaml file
+  # hostname: 'relay.mydomain.com'
+  # allowed_networks:
+  #   - '0.0.0.0/0'
+  auth: true
+  sender_restrictions: 'email'
+  tls:
+    level: 'may'

@@ -1,0 +1,245 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+config:
+  env:
+    # @ignored
+    type: env
+    # -- (string) Existing secret name for environment variables
+    existingName:
+    # -- Environment variables
+    data: {}
+  yaml:
+    # @ignored
+    type: files
+    # @ignored
+    directory: yaml.d
+    # -- (string) Existing secret name for YAML configuration files
+    existingName:
+    # -- YAML configuration files
+    data: {}
+  postfix:
+    # @ignored
+    type: files
+    # @ignored
+    directory: postfix.d
+    # kind: ConfigMap
+    # -- (string) Existing secret name for postfix low-level configuration files
+    existingName:
+    # -- Postfix low-level configuration files
+    data: {}
+  postfix-tls:
+    # @ignored
+    type: tls
+    # @ignored
+    directory: postfix.tls
+    # existingName: my-postfix-tls
+    # cert-manager:
+    #   commonName: example.com
+    #   issuerRef:
+    #     kind: ClusterIssuer
+    #     name: letsencrypt-production
+    # -- (string) Existing secret name for postfix TLS `tls.crt` and `tls.key` files
+    existingName:
+    # -- Postfix TLS `tls.crt` and `tls.key` files
+    data: {}
+  opendkim:
+    # @ignored
+    type: files
+    # @ignored
+    directory: opendkim
+    # -- (string) Existing secret name for opendkim `signingtable` and `keytable` files
+    existingName:
+    # -- Opendkim `signingtable` and `keytable` files
+    data: {}
+  opendkim-keys:
+    # @ignored
+    type: files
+    # @ignored
+    directory: opendkim.keys
+    # -- (string) Existing secret name for opendkim private keys files
+    existingName:
+    # -- Opendkim private keys files
+    data: {}
+  users:
+    # @ignored
+    type: files
+    # @ignored
+    directory: users.d
+    # -- (string) Existing secret name for low-level usernames and passwords
+    existingName:
+    # -- Low-level usernames and passwords
+    data: {}
+
+persistence:
+  # -- Enable persistence for `/var/spool/postfix` directory
+  enabled: false
+  # -- See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  existingClaim: ""
+  # -- See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  storageClass: ""
+  # -- See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  accessMode: ReadWriteOnce
+  # -- See [docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+  size: 1Gi
+
+# -- Enable [Startup Probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#startup-probe)
+startupProbeEnabled: true
+startupProbe:
+  # -- Port to check
+  tcpSocket:
+    port: smtpd
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  periodSeconds: 3
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  failureThreshold: 10
+
+# -- Enable [Liveness Probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#liveness-probe)
+livenessProbeEnabled: true
+livenessProbe:
+  # tcpSocket:
+  #   port: 587
+  # -- Command to check
+  exec:
+    command: ["postfix", "status"]
+    # command:
+    #   - sh
+    #   - -c
+    #   - '! /usr/libexec/postfix/master -t'
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  initialDelaySeconds: 30
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  periodSeconds: 60
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  failureThreshold: 1
+
+# -- Enable [Readiness Probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/#readiness-probe)
+readinessProbeEnabled: false
+readinessProbe:
+  # -- Port to check
+  tcpSocket:
+    port: smtpd
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  initialDelaySeconds: 30
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  periodSeconds: 10
+  # -- See [docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  failureThreshold: 1
+
+# -- Number of PODs to load balance between
+replicaCount: 1
+
+image:
+  # -- The image repository
+  repository: insios/smarthost
+  # -- Overrides the image tag whose default is the chart appVersion
+  tag: ""
+  # -- See [docs](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy)
+  pullPolicy: IfNotPresent
+
+# -- See [docs](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)
+imagePullSecrets: []
+
+# -- Overrides the Helm chart name used to construct resource names
+nameOverride: ""
+# -- Overrides the full prefix of resource names
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: false
+  # -- Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Additional annotations for POD
+podAnnotations: {}
+# -- Additional labels for POD
+podLabels: {}
+
+# -- Security context for POD, see [docs](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# -- Security context for container, see [docs](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  # -- Create service for submission port 587
+  create: true
+  # -- See [docs](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types)
+  type: ClusterIP
+  # -- Submission service port
+  port: 587
+  # nodePort: 30587
+  # externalTrafficPolicy: Local
+
+servicePP:
+  # -- Create service for submission port 586 with PROXY protocol
+  create: true
+  # -- See [docs](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types)
+  type: ClusterIP
+  # -- PROXY protocol service port
+  port: 586
+  # nodePort: 30586
+
+# -- Resource management. See [docs](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  # -- Enable PODs autoscaling
+  enabled: false
+  # -- See [docs](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/)
+  minReplicas: 1
+  # -- See [docs](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/)
+  maxReplicas: 100
+  # -- See [docs](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/)
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# -- Additional volumes on the output Deployment definition. See [docs](https://kubernetes.io/docs/concepts/storage/volumes/)
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# -- Additional volumeMounts on the output Deployment definition. See [docs](https://kubernetes.io/docs/concepts/storage/volumes/)
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+# -- Additional ENV from Secrets or ConfigMaps on the output Deployment definition.
+envFrom: []
+# - secretRef:
+#     name: mysecret
+
+# -- You can add the nodeSelector here and specify the node labels you want the target node to have.
+# See [docs](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
+nodeSelector: {}
+
+# -- Tolerations allow the scheduler to schedule pods with matching taints
+# See [docs](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+tolerations: []
+
+# -- Affinity gives you more control over the Node selection logic.
+# See [docs](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+affinity: {}

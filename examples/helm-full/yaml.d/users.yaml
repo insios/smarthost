@@ -1,0 +1,14 @@
+users:
+  - name: 'domain1_bot'
+    password: 'password'
+    allowed_from:
+      - 'noreply@mydomain1.com'
+  - name: 'domain2_bot'
+    password: 'password'
+    allowed_from:
+      - '@mydomain2.com'
+  - name: 'monitoring'
+    password: 'password'
+    allowed_from:
+      - 'alertmanager@mydomain1.com'
+      - 'alertmanager@mydomain2.com'

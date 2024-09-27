@@ -1,0 +1,9 @@
+domains:
+  - name: 'mydomain1.com'
+    dkim:
+      selector: 'myrelay'
+      key_file: 'opendkim.keys/mydomain1.key'
+  - name: 'mydomain2.com'
+    dkim:
+      selector: 'myrelay'
+      key_file: 'opendkim.keys/mydomain2.key'

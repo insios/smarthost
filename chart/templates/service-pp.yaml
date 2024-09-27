@@ -1,0 +1,23 @@
+{{- if .Values.servicePP.create -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart.fullname" . }}-pp
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.servicePP.type }}
+  ports:
+    - port: {{ .Values.servicePP.port }}
+      targetPort: postscreen
+      protocol: TCP
+      name: postscreen
+      {{- if .Values.servicePP.nodePort }}
+      nodePort: {{ .Values.servicePP.nodePort }}
+      {{- end }}
+  {{- if .Values.servicePP.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.servicePP.externalTrafficPolicy }}
+  {{- end }}
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}
+{{- end }}
