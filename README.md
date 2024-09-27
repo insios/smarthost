@@ -1,5 +1,11 @@
 # INSIOS/smarthost
 
+![GitHub Release](https://img.shields.io/github/v/release/insios/smarthost?filter=app-*&label=Releases)
+![GitHub Release](https://img.shields.io/github/v/release/insios/smarthost?filter=chart-*&label=)
+![GitHub License](https://img.shields.io/github/license/insios/smarthost)
+[![Publish helm chart](https://github.com/insios/smarthost/actions/workflows/publish-chart.yaml/badge.svg)](https://github.com/insios/smarthost/actions/workflows/publish-chart.yaml)
+[![Publish docker image](https://github.com/insios/smarthost/actions/workflows/publish-image.yaml/badge.svg)](https://github.com/insios/smarthost/actions/workflows/publish-image.yaml)
+
 A smarthost is a Mail Transfer Agent (MTA) or mail relay that allows third parties to send emails, which are then forwarded to the recipient's email servers.
 
 ## Description
