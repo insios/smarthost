@@ -35,8 +35,9 @@ config:
     # @ignored
     directory: postfix.tls
     # existingName: my-postfix-tls
-    # cert-manager:
-    #   commonName: example.com
+    # certManager:
+    #   dnsNames:
+    #     - relay.mydomain.com
     #   issuerRef:
     #     kind: ClusterIssuer
     #     name: letsencrypt-production

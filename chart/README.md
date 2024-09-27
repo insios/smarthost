@@ -170,14 +170,15 @@ config:
 
 ### Cert-Manager TLS certificate
 
-The `postfix-tls` secret configuration has a `cert-manager` key that can contain parameters for the `Certificate` resource. See [https://cert-manager.io/docs/usage/certificate/](https://cert-manager.io/docs/usage/certificate/)
+The `postfix-tls` secret configuration has a `certManager` key that can contain parameters for the `Certificate` resource. See [https://cert-manager.io/docs/usage/certificate/](https://cert-manager.io/docs/usage/certificate/)
 
 ```yaml
 # Your values.yaml 
 config:
   postfix-tls:
-    cert-manager:
-      commonName: 'relay.mydomain.com'
+    certManager:
+      dnsNames:
+        - relay.mydomain.com
       issuerRef:
         kind: ClusterIssuer
         name: letsencrypt-production

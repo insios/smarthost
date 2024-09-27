@@ -19,8 +19,9 @@ config:
     # --set-file config.opendkim-keys.data.[domain1.key, domain2.key]
   postfix-tls:
     # Use cert-manager to obtain TLS certificate
-    cert-manager:
-      commonName: relay.mydomain.com
+    certManager:
+      dnsNames:
+        - relay.mydomain.com
       issuerRef:
         kind: ClusterIssuer
         name: letsencrypt-production
